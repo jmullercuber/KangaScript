@@ -13,6 +13,7 @@ tokens = (
 	'RIGHT_BOX',			# ]
 	'LEFT_CURLY_BRACE',		# {
 	'RIGHT_CURLY_BRACE',	# }
+	'COMMA',				# ,
 	#'SINGLE_QUOTE',		# '			# no use so far
 	'RIGHT_ARROW',			# ->        # idk, want some way for short anon functions
 	
@@ -38,6 +39,7 @@ tokens = (
 	'CONTINUE',				# continue
 	'BREAK',				# break
 	'PASS',					# pass
+	'IMPORT',				# import
 	'IF',					# if
 	'ELIF',					# elif
 	'OTHERWISE', 			# otherwise
@@ -51,7 +53,7 @@ tokens = (
 	'IN',					# in
 	'HAS',					# has
 	
-	'ASSIGN_EQUAL',			# =
+	'ASSIGN_EQUALS',		# =
 	
 	'EQUIVALENCE_EQUAL',	# ==
 	'COMPARE_GT',			# >
@@ -110,7 +112,7 @@ def t_ignore_eolcomment(t):
 # they look like identifiers
 # instead of making rules for each of them
 # they'll just piggy off identifiers
-reserved = ['blank', 'null', 'true', 'false', 'function', 'endfunction', 'this', 'for', 'while', 'continue', 'break', 'pass', 'if', 'elif', 'otherwise', 'endfor', 'endwhile', 'endif', 'return', 'in', 'has', 'and', 'or', 'not']
+reserved = ['blank', 'null', 'true', 'false', 'function', 'endfunction', 'this', 'for', 'while', 'continue', 'break', 'pass', 'import', 'if', 'elif', 'otherwise', 'endfor', 'endwhile', 'endif', 'return', 'in', 'has', 'and', 'or', 'not']
 
 
 
@@ -155,6 +157,7 @@ t_LEFT_BOX					= r'\['
 t_RIGHT_BOX					= r'\]'
 t_LEFT_CURLY_BRACE			= r'\{'
 t_RIGHT_CURLY_BRACE			= r'\}'
+t_COMMA						= r'\,'
 #t_SINGLE_QUOTE				= r'\''
 t_RIGHT_ARROW				= r'\-\>'
 t_COLON						= r'\:'
@@ -180,7 +183,7 @@ t_TIMES						= r'\*'
 t_DIVIDE					= r'\/'
 t_MODULUS					= r'\%'
 t_EXPONENT					= r'\^'
-t_ASSIGN_EQUAL				= r'\='
+t_ASSIGN_EQUALS				= r'\='
 
 
 
