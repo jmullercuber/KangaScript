@@ -1,9 +1,3 @@
-Super-Calculator
-================
-
-For my 2014-2015 Senior Project, I bring forth a calculator, and it's gonna be awesome
-
-
 To run a KangaScript file from the command line, a couple of things.
 
 Currently, you'll need a working version of Python (tested w/ 2.7)
