@@ -32,6 +32,8 @@ elif len(sys.argv) == 3:
 
 
 print ksstring
+print "#"*10 + "EOF" + "#"*10
+print ""
 ast = parser.parse(ksstring)
 #print ast
 interpret(ast, global_env)

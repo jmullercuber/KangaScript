@@ -383,10 +383,9 @@ def eval_exp(exp, env):
 		built_in_functions = ['print', 'range']
 		if fname in built_in_functions:
 			if fname == "print":
-				argval = argvals[0]
 				#print "PRINTING... exp ... ", argval,env
 				#print "ENV", env.book
-				print argval.__string__()
+				print ' '.join([e.__string__() for e in argvals])
 				#print "FUNCTION", fname, "done."
 			
 			elif fname == "range":

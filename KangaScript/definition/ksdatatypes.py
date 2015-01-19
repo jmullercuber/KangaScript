@@ -85,7 +85,7 @@ class KS_String(KS_DataType):
 	def asnumber(self):
 		return int(self.value)
 	def __string__(self):
-		return self.value
+		return "'" + self.value + "'"
 
 class KS_Object(KS_DataType):
 	def __init__(self, value):

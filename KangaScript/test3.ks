@@ -15,3 +15,5 @@ print(m.n)
 m.n = 4
 
 print(m.n)
+
+print(7, 8, 9, 0, 'ref', 'g', {}, m)
