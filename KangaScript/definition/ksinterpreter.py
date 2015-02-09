@@ -186,6 +186,10 @@ def eval_exp(exp, env):
 			# first assignment, no one can use it yet though. need another operator or future reference
 			return None
 		else:
+			# strange things happened....
+			env_update(name, eval_exp(value, env), env)
+			value = env_lookup(name, env)
+			
 			#print "Found identifier", name + ":", value
 			#print "value:", value.__string__()
 			return value
@@ -218,7 +222,8 @@ def eval_exp(exp, env):
 
 
 	elif etype == "operator_array-rhs":
-		array, rhs = exp[1:]
+		array = eval_exp(exp[1], env)
+		rhs = exp[2]
 		#print "OPERATOR-ARRAY-RHS", array, rhs
 		if rhs[0] == "sublist-stepped":
 			start = eval_exp(rhs[1]['start'], env).asnumber()
@@ -255,7 +260,9 @@ def eval_exp(exp, env):
 				print "Error: list index"
 				return None
 			else:
-				return array.aslist()[int(index)]
+				#print "array", array
+				#print "arrayelem", to_KS_DataType(  array.aslist()[int(index)]  )
+				return to_KS_DataType(  array.aslist()[int(index)]  )
 
 
 	elif etype == "operator_unary-lhs":
@@ -282,6 +289,7 @@ def eval_exp(exp, env):
 		if (isinstance(lhs, tuple) and lhs[0]=='identifier' and op[-1]=="=" and op!="=="):
 			#print "You wanna assign"
 			if op == "=":	# Assign_Equal
+				#print "rhsassign", lhs, rhs, rhs.__string__()
 				env_update(lhs[1], to_KS_DataType( rhs.value ), env)
 				return rhs
 			
@@ -308,6 +316,7 @@ def eval_exp(exp, env):
 		if op == "+":		# PLUS
 			return to_KS_DataType( lhs.value + rhs.value )
 		elif op == "*":		# TIMES
+			print "lhs, rhs", lhs, rhs, exp[1], exp[3]
 			return to_KS_DataType( lhs.value * rhs.value )
 		elif op == "-":		# MINUS
 			return to_KS_DataType( lhs.value - rhs.value )
@@ -327,6 +336,7 @@ def eval_exp(exp, env):
 		
 		
 		elif op == "in":	# IN
+			#print lhs.value, "in", rhs.value
 			return to_KS_DataType( lhs.value in rhs.value )
 		elif op == "has":	# HAS
 			return to_KS_DataType( rhs.value in lhs.value  )
@@ -355,6 +365,7 @@ def eval_exp(exp, env):
 		elif op == ">=":	# LT
 			return to_KS_DataType( lhs.value >= rhs.value )
 		elif op == "==":	# Equal_Equals
+			#print "lhs, rhs", lhs, rhs, exp[1]
 			return to_KS_DataType( lhs.value == rhs.value )
 		
 
@@ -397,7 +408,7 @@ def eval_exp(exp, env):
 					for i in
 					range(0, int(end.asnumber()))
 				]
-				print "FUNCTION", fname, "done."
+				#print "FUNCTION", fname, "done."
 				return KS_Array(arr)
 			
 		else:

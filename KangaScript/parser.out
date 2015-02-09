@@ -3178,16 +3178,6 @@ state 53
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 53 (expression -> NOT_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 53 (expression -> NOT_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 53 (expression -> NOT_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 53 (expression -> NOT_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 53 (expression -> NOT_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 53 (expression -> NOT_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 53 (expression -> NOT_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 53 (expression -> NOT_EQUALS expression .)
-    AND_EQUALS      reduce using rule 53 (expression -> NOT_EQUALS expression .)
-    OR_EQUALS       reduce using rule 53 (expression -> NOT_EQUALS expression .)
     LEFT_BOX        reduce using rule 53 (expression -> NOT_EQUALS expression .)
     LEFT_PAREN      reduce using rule 53 (expression -> NOT_EQUALS expression .)
     FUNCTION        reduce using rule 53 (expression -> NOT_EQUALS expression .)
@@ -3222,6 +3212,16 @@ state 53
     COMMA           reduce using rule 53 (expression -> NOT_EQUALS expression .)
     RIGHT_BOX       reduce using rule 53 (expression -> NOT_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 53 (expression -> NOT_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -3239,6 +3239,16 @@ state 53
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
   ! DOT             [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
@@ -3255,16 +3265,6 @@ state 53
   ! COMPARE_GTET    [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 53 (expression -> NOT_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -6922,16 +6922,6 @@ state 117
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
-    AND_EQUALS      reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
-    OR_EQUALS       reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
     LEFT_BOX        reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
     LEFT_PAREN      reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
     FUNCTION        reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
@@ -6966,6 +6956,16 @@ state 117
     COMMA           reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
     RIGHT_BOX       reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 57 (expression -> expression DOT_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -6983,6 +6983,16 @@ state 117
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
   ! DOT             [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
@@ -6999,16 +7009,6 @@ state 117
   ! COMPARE_GTET    [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 57 (expression -> expression DOT_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -7690,16 +7690,6 @@ state 123
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
-    AND_EQUALS      reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
-    OR_EQUALS       reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
     LEFT_BOX        reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
     LEFT_PAREN      reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
     FUNCTION        reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
@@ -7734,6 +7724,16 @@ state 123
     COMMA           reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
     RIGHT_BOX       reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 59 (expression -> expression MINUS_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -7751,6 +7751,16 @@ state 123
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
   ! DOT             [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
@@ -7767,16 +7777,6 @@ state 123
   ! COMPARE_GTET    [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 59 (expression -> expression MINUS_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -8410,16 +8410,6 @@ state 130
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
-    AND_EQUALS      reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
-    OR_EQUALS       reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
     LEFT_BOX        reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
     LEFT_PAREN      reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
     FUNCTION        reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
@@ -8454,6 +8444,16 @@ state 130
     COMMA           reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
     RIGHT_BOX       reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -8471,6 +8471,16 @@ state 130
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
   ! DOT             [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
@@ -8487,16 +8497,6 @@ state 130
   ! COMPARE_GTET    [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 62 (expression -> expression MODULUS_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -8666,16 +8666,6 @@ state 132
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
-    AND_EQUALS      reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
-    OR_EQUALS       reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
     LEFT_BOX        reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
     LEFT_PAREN      reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
     FUNCTION        reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
@@ -8710,6 +8700,16 @@ state 132
     COMMA           reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
     RIGHT_BOX       reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 60 (expression -> expression TIMES_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -8727,6 +8727,16 @@ state 132
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
   ! DOT             [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
@@ -8743,16 +8753,6 @@ state 132
   ! COMPARE_GTET    [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 60 (expression -> expression TIMES_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -8922,16 +8922,6 @@ state 134
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 64 (expression -> expression AND_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 64 (expression -> expression AND_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 64 (expression -> expression AND_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 64 (expression -> expression AND_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 64 (expression -> expression AND_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 64 (expression -> expression AND_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 64 (expression -> expression AND_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 64 (expression -> expression AND_EQUALS expression .)
-    AND_EQUALS      reduce using rule 64 (expression -> expression AND_EQUALS expression .)
-    OR_EQUALS       reduce using rule 64 (expression -> expression AND_EQUALS expression .)
     LEFT_BOX        reduce using rule 64 (expression -> expression AND_EQUALS expression .)
     LEFT_PAREN      reduce using rule 64 (expression -> expression AND_EQUALS expression .)
     FUNCTION        reduce using rule 64 (expression -> expression AND_EQUALS expression .)
@@ -8966,6 +8956,16 @@ state 134
     COMMA           reduce using rule 64 (expression -> expression AND_EQUALS expression .)
     RIGHT_BOX       reduce using rule 64 (expression -> expression AND_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 64 (expression -> expression AND_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -8983,6 +8983,16 @@ state 134
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
   ! DOT             [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
@@ -8999,16 +9009,6 @@ state 134
   ! COMPARE_GTET    [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 64 (expression -> expression AND_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -9050,16 +9050,6 @@ state 135
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 65 (expression -> expression OR_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 65 (expression -> expression OR_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 65 (expression -> expression OR_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 65 (expression -> expression OR_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 65 (expression -> expression OR_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 65 (expression -> expression OR_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 65 (expression -> expression OR_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 65 (expression -> expression OR_EQUALS expression .)
-    AND_EQUALS      reduce using rule 65 (expression -> expression OR_EQUALS expression .)
-    OR_EQUALS       reduce using rule 65 (expression -> expression OR_EQUALS expression .)
     LEFT_BOX        reduce using rule 65 (expression -> expression OR_EQUALS expression .)
     LEFT_PAREN      reduce using rule 65 (expression -> expression OR_EQUALS expression .)
     FUNCTION        reduce using rule 65 (expression -> expression OR_EQUALS expression .)
@@ -9094,6 +9084,16 @@ state 135
     COMMA           reduce using rule 65 (expression -> expression OR_EQUALS expression .)
     RIGHT_BOX       reduce using rule 65 (expression -> expression OR_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 65 (expression -> expression OR_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -9111,6 +9111,16 @@ state 135
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
   ! DOT             [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
@@ -9127,16 +9137,6 @@ state 135
   ! COMPARE_GTET    [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 65 (expression -> expression OR_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -9748,16 +9748,6 @@ state 144
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
-    AND_EQUALS      reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
-    OR_EQUALS       reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
     LEFT_BOX        reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
     LEFT_PAREN      reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
     FUNCTION        reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
@@ -9792,6 +9782,16 @@ state 144
     COMMA           reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
     RIGHT_BOX       reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 58 (expression -> expression PLUS_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -9809,6 +9809,16 @@ state 144
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
   ! DOT             [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
@@ -9825,16 +9835,6 @@ state 144
   ! COMPARE_GTET    [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 58 (expression -> expression PLUS_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -9876,16 +9876,6 @@ state 145
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
-    AND_EQUALS      reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
-    OR_EQUALS       reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
     LEFT_BOX        reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
     LEFT_PAREN      reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
     FUNCTION        reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
@@ -9920,6 +9910,16 @@ state 145
     COMMA           reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
     RIGHT_BOX       reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -9937,6 +9937,16 @@ state 145
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
   ! DOT             [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
@@ -9953,16 +9963,6 @@ state 145
   ! COMPARE_GTET    [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 56 (expression -> expression ASSIGN_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -10004,16 +10004,6 @@ state 146
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
-    AND_EQUALS      reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
-    OR_EQUALS       reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
     LEFT_BOX        reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
     LEFT_PAREN      reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
     FUNCTION        reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
@@ -10048,6 +10038,16 @@ state 146
     COMMA           reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
     RIGHT_BOX       reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -10065,6 +10065,16 @@ state 146
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
   ! DOT             [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
@@ -10081,16 +10091,6 @@ state 146
   ! COMPARE_GTET    [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 61 (expression -> expression DIVIDE_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 
@@ -10132,16 +10132,6 @@ state 147
     (107) operator_rhs_array -> . LEFT_BOX array_operator_insides_missing RIGHT_BOX
     (86) arguments -> . LEFT_PAREN exp_list RIGHT_PAREN
 
-    ASSIGN_EQUALS   reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
-    DOT_EQUALS      reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
-    PLUS_EQUALS     reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
-    MINUS_EQUALS    reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
-    TIMES_EQUALS    reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
-    DIVIDE_EQUALS   reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
-    MODULUS_EQUALS  reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
-    EXPONENT_EQUALS reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
-    AND_EQUALS      reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
-    OR_EQUALS       reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
     LEFT_BOX        reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
     LEFT_PAREN      reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
     FUNCTION        reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
@@ -10176,6 +10166,16 @@ state 147
     COMMA           reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
     RIGHT_BOX       reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
     RIGHT_CURLY_BRACE reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .)
+    ASSIGN_EQUALS   shift and go to state 89
+    DOT_EQUALS      shift and go to state 64
+    PLUS_EQUALS     shift and go to state 88
+    MINUS_EQUALS    shift and go to state 70
+    TIMES_EQUALS    shift and go to state 80
+    DIVIDE_EQUALS   shift and go to state 90
+    MODULUS_EQUALS  shift and go to state 78
+    EXPONENT_EQUALS shift and go to state 91
+    AND_EQUALS      shift and go to state 82
+    OR_EQUALS       shift and go to state 83
     DOT             shift and go to state 69
     PLUS            shift and go to state 75
     MINUS           shift and go to state 68
@@ -10193,6 +10193,16 @@ state 147
     COMPARE_LT      shift and go to state 81
     COMPARE_LTET    shift and go to state 66
 
+  ! ASSIGN_EQUALS   [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
+  ! DOT_EQUALS      [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
+  ! PLUS_EQUALS     [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
+  ! MINUS_EQUALS    [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
+  ! TIMES_EQUALS    [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
+  ! DIVIDE_EQUALS   [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
+  ! MODULUS_EQUALS  [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
+  ! EXPONENT_EQUALS [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
+  ! AND_EQUALS      [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
+  ! OR_EQUALS       [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
   ! DOT             [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
   ! PLUS            [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
   ! MINUS           [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
@@ -10209,16 +10219,6 @@ state 147
   ! COMPARE_GTET    [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
   ! COMPARE_LT      [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
   ! COMPARE_LTET    [ reduce using rule 63 (expression -> expression EXPONENT_EQUALS expression .) ]
-  ! ASSIGN_EQUALS   [ shift and go to state 89 ]
-  ! DOT_EQUALS      [ shift and go to state 64 ]
-  ! PLUS_EQUALS     [ shift and go to state 88 ]
-  ! MINUS_EQUALS    [ shift and go to state 70 ]
-  ! TIMES_EQUALS    [ shift and go to state 80 ]
-  ! DIVIDE_EQUALS   [ shift and go to state 90 ]
-  ! MODULUS_EQUALS  [ shift and go to state 78 ]
-  ! EXPONENT_EQUALS [ shift and go to state 91 ]
-  ! AND_EQUALS      [ shift and go to state 82 ]
-  ! OR_EQUALS       [ shift and go to state 83 ]
   ! LEFT_BOX        [ shift and go to state 84 ]
   ! LEFT_PAREN      [ shift and go to state 74 ]
 

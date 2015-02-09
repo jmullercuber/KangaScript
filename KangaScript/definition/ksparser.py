@@ -22,7 +22,7 @@ start = 'ks'
 # declares what operators to reduce
 # lowest to highest
 precedence = (
-	('left', 'ASSIGN_EQUALS', 'DOT_EQUALS', 'PLUS_EQUALS', 'MINUS_EQUALS', 'TIMES_EQUALS', 'DIVIDE_EQUALS', 'MODULUS_EQUALS', 'EXPONENT_EQUALS', 'AND_EQUALS', 'OR_EQUALS', 'NOT_EQUALS'),
+	('right', 'ASSIGN_EQUALS', 'DOT_EQUALS', 'PLUS_EQUALS', 'MINUS_EQUALS', 'TIMES_EQUALS', 'DIVIDE_EQUALS', 'MODULUS_EQUALS', 'EXPONENT_EQUALS', 'AND_EQUALS', 'OR_EQUALS', 'NOT_EQUALS'),
 	('left', 'OR'),
 	('left', 'AND'),
 	('left', 'EQUIVALENCE_EQUAL', 'COMPARE_LT', 'COMPARE_LTET', 'COMPARE_GT', 'COMPARE_GTET'),

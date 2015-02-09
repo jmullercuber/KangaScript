@@ -30,11 +30,15 @@ class KS_Identifier():
 
 # representing the Blank/undefined but not null data type
 class KS_Blank(KS_DataType):
+	def __init__(self):
+		self.value = None
 	def istrue(self):
 		return false
 
 # representing the null (i don''t have a clue) data type
 class KS_Null(KS_DataType):
+	def __init__(self):
+		self.value = None
 	def istrue(self):
 		return false
 	def asnumber(self):
