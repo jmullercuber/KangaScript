@@ -1,3 +1,3 @@
-print statement accepts multiple parameters
-KS_String.__string__() returns a string bounded by explicit quotation marks now, so it's easy to tell difference
-ksexec places End Of File marker after input. User easily distinguish between source code and output
+Changed grammar to (hopefully) let right hand side array operator (operator_rhs_array) work correctly
+Gonna have to test that I guess
+Besides that, have some good confidence in the grammar and parser definitions

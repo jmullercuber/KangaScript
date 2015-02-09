@@ -32,6 +32,7 @@ precedence = (
 	('left', 'EXPONENT'),
 	('right', 'NOT'),
 	('left', 'DOT'),
+	('left', 'operator_rhs_array'),
 )
 
 
@@ -245,6 +246,13 @@ def p_expression_rhsarray(p):
 	p[0] = ('operator_array-rhs', p[1], p[2])
 
 
+def p_operator_rhs_array(p):
+	'''operator_rhs_array : LEFT_BOX array_operator_insides RIGHT_BOX
+		| LEFT_BOX array_operator_insides_missing RIGHT_BOX'''
+	p[0] = p[2]
+
+
+
 def p_expression_binary(p):
 	# Operators have to be all here for precedence to work
 	'''expression : expression ASSIGN_EQUALS expression
@@ -373,11 +381,6 @@ def p_key_value_pair(p):
 	p[0] = [('key_value_pair', p[1].value, p[3])]
 
 
-def p_operator_rhs_array(p):
-	'''operator_rhs_array : LEFT_BOX array_operator_insides RIGHT_BOX
-		| LEFT_BOX array_operator_insides_missing RIGHT_BOX'''
-	p[0] = p[2]
-
 def p_array_operator_insides(p):
 	'''array_operator_insides : expression
 		| expression COLON expression
@@ -388,10 +391,6 @@ def p_array_operator_insides(p):
 		p[0] = ('sublist-stepped', {'start':p[1], 'end':p[3], 'step':KS_Null()})
 	elif len(p)==2:
 		p[0] = ('element_at', p[1])
-
-def p_array_operator_insides_missing(p):
-	'''array_operator_insides_missing : array_operator_missing'''
-	p[0] = p[1]
 
 def p_array_operator_missing_ternary_end(p):
 	'''array_operator_missing : expression COLON'''
