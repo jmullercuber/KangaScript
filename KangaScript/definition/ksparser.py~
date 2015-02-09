@@ -193,25 +193,13 @@ def p_stmt_s_import(p):
 	p[0] = ('import', p[2])
 
 def p_dotted_identifier(p):
-	'''dotted_identifier : dotted_identifier_something
-		| dotted_identifier_everything'''
-	p[0] = p[1]
-
-def p_dotted_identifier_something(p):
-	'''dotted_identifier_something : expression_identifier
-		| expression_identifier DOT dotted_identifier_something'''
+	'''dotted_identifier : expression_identifier
+		| TIMES
+		| expression_identifier DOT dotted_identifier'''
 	if len(p)==4:
 		p[0] = [p[1]] + p[3]
 	elif len(p)==2:
 		p[0] = [p[1]]
-
-def p_dotted_identifier_everything(p):
-	'''dotted_identifier_everything : TIMES
-		| dotted_identifier_something DOT TIMES'''
-	if len(p)==4:
-		p[0] = p[1] + ["*EVERYTHING*"]
-	elif len(p)==2:
-		p[0] = ["*EVERYTHING*"]
 
 def p_stmt_s_expression(p):
 	'stmt_s_expression : expression'
