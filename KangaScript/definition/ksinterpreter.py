@@ -58,19 +58,20 @@ def interpret(ast, env):
 # done interpreting!
 
 def eval_element(element, env):
-	etype = element[0]
 	# function definition
-	if etype == 'function':
+	if isinstance(element, KS_Function):
 		# either named or anonymous
-		fvalue = element[1]
+		fvalue = element
 		fvalue.setEnv(env)
 		env_update(fvalue.name, fvalue, env)
-	elif etype == 'compoundstmt':
-		eval_compound(element[1], env)
-	elif etype == 'simplestmt':
-		eval_simple(element[1], env)
 	else:
-		print "Error: unknown element", element
+		etype = element[0]
+		if etype == 'compoundstmt':
+			eval_compound(element[1], env)
+		elif etype == 'simplestmt':
+			eval_simple(element[1], env)
+		else:
+			print "Error: unknown element", element
 # done evaluating element
 
 def eval_compound(stmt, env):
@@ -89,7 +90,7 @@ def eval_compound(stmt, env):
 
 	
 	elif stype == "for-in":
-		key = stmt[1][1]
+		key = stmt[1].name
 		array = eval_exp(stmt[2], env)
 		inards = stmt[3]
 		# create new env
@@ -120,56 +121,55 @@ def eval_compound(stmt, env):
 		print "Error: unknown compoundstmt", element
 
 def eval_simple(stmt, env):
-	stype = stmt[0]
 	
-	if stype == "continue":
-		raise KS_Continue()
-	
-	
-	elif stype == "break":
-		raise KS_Break()
+	if isinstance(stmt, KS_ControlFlow_Interuptive):
+		# covers continue, break, and return
+		raise stmt
 	
 	
-	elif stype == "pass":
-		pass
-	
-	
-	elif stype == "return":
-		retval = stmt[1]
-		# important to evaluate the expression now!
-		# otherwise, we could be in the wrong environment
-		retval = eval_exp(retval, env)
-		raise KS_Return(retval)
-	
-	
-	elif stype == "import":
-		pass
-	
-	
-	elif stype == "expression":
-		expression = stmt[1]
-		eval_exp(expression, env)
-
-
 	
 	else:
-		print "Error: unknown simplestmt", stmt, stmt[0]
+		stype = stmt[0]
+		
+		
+		if stype == "pass":
+			pass
+		
+		
+		elif stype == "return":
+			retval = stmt[1]
+			# important to evaluate the expression now!
+			# otherwise, we could be in the wrong environment
+			retval = eval_exp(retval, env)
+			raise KS_Return(retval)
+		
+		
+		elif stype == "import":
+			pass
+		
+		
+		elif stype == "expression":
+			expression = stmt[1]
+			eval_exp(expression, env)
+		
+		
+		else:
+			print "Error: unknown simplestmt", stmt, stmt[0]
 
 def eval_exp(exp, env):
-	if isinstance(exp, KS_DataType):
-		return exp
 	
-	etype = exp[0]
-	
-	if etype == "function":
+	if isinstance(exp, KS_Function):
 		# don't forget to set the environment!!!
 		eval_element(exp, env)
-
+		
 		# return the function now
-		return exp[1]
+		return exp
 	
-	elif etype == "identifier":
-		name = exp[1]
+	elif isinstance(exp, KS_DataType):
+		return exp
+	
+	elif isinstance(exp, KS_Identifier):
+		name = exp.name
 #		print "Finding identifier " + name + "....."
 		if env.parent != None:
 			#print "Env", env.parent.book
@@ -181,7 +181,7 @@ def eval_exp(exp, env):
 			# assume declaration though
 			env_update(name, KS_Blank(), env)
 			
-#			print "Warning: evaluating identifier " + name + ". First assignment"
+			print "Warning: evaluating identifier " + name + ". First assignment"
 
 			# first assignment, no one can use it yet though. need another operator or future reference
 			return None
@@ -198,10 +198,11 @@ def eval_exp(exp, env):
 		#else:
 		#	return value
 	
+	etype = exp[0]
 	
 	if etype == "array-concatenation":
 		elem = exp[1]
-		key = exp[2][1]
+		key = exp[2].name
 		exp_array = eval_exp(exp[3], env).aslist()
 		# create new env
 		forenv = Environment(env, {key:KS_Blank()})

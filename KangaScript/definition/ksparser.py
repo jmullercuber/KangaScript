@@ -32,7 +32,7 @@ precedence = (
 	('left', 'EXPONENT'),
 	('right', 'NOT'),
 	('left', 'DOT'),
-	('left', 'operator_rhs_array'),
+	('left', 'LEFT_BOX'),
 )
 
 
@@ -63,13 +63,13 @@ def p_function_definition(p):
 	'''function_definition : FUNCTION expression_identifier parameters COLON ks ENDFUNCTION
 		| function_anonymous'''
 	if len(p)==7:
-		p[0] = ('function', KS_Function(p[2][1], p[3], p[5]) )
+		p[0] = KS_Function(p[2].name, p[3], p[5])
 	elif len(p)==2:
 		p[0] = p[1]
 
 def p_function_anonmyous(p):
 	'''function_anonymous : FUNCTION parameters COLON ks ENDFUNCTION'''
-	p[0] = ('function', KS_Function('*anon*', p[2], p[4]) )
+	p[0] = KS_Function('*anon*', p[2], p[4])
 	
 
 def p_parameters(p):
@@ -170,12 +170,12 @@ def p_stmt_s_control_flow(p):
 
 def p_stmt_s_continue(p):
 	'stmt_s_continue : CONTINUE'
-	p[0] = ('continue',)
+	p[0] = KS_Continue(None)
 
 
 def p_stmt_s_break(p):
 	'stmt_s_break : BREAK'
-	p[0] = ('break',)
+	p[0] = KS_Break(None)
 
 def p_stmt_s_pass(p):
 	'stmt_s_pass : PASS'
@@ -242,14 +242,9 @@ def p_expression_unarylhs(p):
 
 
 def p_expression_rhsarray(p):
-	'expression : expression operator_rhs_array'
-	p[0] = ('operator_array-rhs', p[1], p[2])
-
-
-def p_operator_rhs_array(p):
-	'''operator_rhs_array : LEFT_BOX array_operator_insides RIGHT_BOX
-		| LEFT_BOX array_operator_insides_missing RIGHT_BOX'''
-	p[0] = p[2]
+	'''expression : expression LEFT_BOX array_operator_insides RIGHT_BOX
+		| expression LEFT_BOX array_operator_missing RIGHT_BOX'''
+	p[0] = ('operator_array-rhs', p[1], p[3])
 
 
 
@@ -290,12 +285,12 @@ def p_expression_id(p):
 
 def p_expression_identifier(p):
 	'expression_identifier : IDENTIFIER'
-	p[0] = ('identifier', p[1])
+	p[0] = KS_Identifier(p[1])
 
 
 def p_expression_this(p):
 	'expression : THIS'
-	p[0] = ("identifier", 'this')
+	p[0] = KS_Identifier('this')
 
 def p_function_call(p):
 	'function_call : expression arguments'

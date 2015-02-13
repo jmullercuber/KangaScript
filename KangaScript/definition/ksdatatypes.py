@@ -133,17 +133,24 @@ def to_KS_DataType(x):
 		return KS_Null()
 
 
-# Control Flow Exceptiond
+# Control Flow Exception
 # ----------------------------------
+class KS_ControlFlow_Interuptive(Exception):
+	pass
+
+# KS_Return won't quite  extend KS_ControlFlow_Interuptive yet
+# because it's behavior is different in interpreter
+# stores expression, which can't be evaluated in parser unlike continue and break
+# with their strings
 class KS_Return(Exception):
 	def __init__(self, retval):
 		self.retval = retval
 
-class KS_Continue(Exception):
+class KS_Continue(KS_ControlFlow_Interuptive):
 	def __init__(self, label=None):
 		self.label = label
 
-class KS_Break(Exception):
+class KS_Break(KS_ControlFlow_Interuptive):
 	def __init__(self, label=None):
 		self.label = label
 
