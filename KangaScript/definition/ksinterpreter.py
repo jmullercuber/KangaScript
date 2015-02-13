@@ -254,16 +254,24 @@ def eval_exp(exp, env):
 			else:
 				return KS_Array( array.aslist()[ start : end : step ] )
 		elif rhs[0] == "element_at":
-			index = eval_exp(rhs[1], env).asnumber()
+			index = eval_exp(rhs[1], env)
 			#print "ELEMENT-AT", index
 			
-			if int(index)!=index:
-				print "Error: list index"
-				return None
+			if ( isinstance(array, KS_Object) ):
+				# using array notation to get stuff from an object
+				obj = array
+				return obj.value[ index ]
+
 			else:
-				#print "array", array
-				#print "arrayelem", to_KS_DataType(  array.aslist()[int(index)]  )
-				return to_KS_DataType(  array.aslist()[int(index)]  )
+				# using array notation for arrays
+				index = index.asnumber()
+				if int(index)!=index:
+					print "Error: list index"
+					return None
+				else:
+					#print "array", array
+					#print "arrayelem", to_KS_DataType(  array.aslist()[int(index)]  )
+					return to_KS_DataType(  array.aslist()[int(index)]  )
 
 
 	elif etype == "operator_unary-lhs":
@@ -280,39 +288,42 @@ def eval_exp(exp, env):
 		# right now boolean short circuit eval doesn't work
 		#print "a", exp[1]
 		#print "b", exp[3]
-		lhs = exp[1] #eval_exp(exp[1], env)
+		lhs = eval_exp(exp[1], env)
 		op = exp[2]
 		rhs = eval_exp(exp[3], env)
+
+		lhs_id = exp[1]
+		rhs_id = exp[3]
+		
 		#print "lhs", lhs
 		#print "rhs", rhs
 		#print "op", op
 		
-		if (isinstance(lhs, tuple) and lhs[0]=='identifier' and op[-1]=="=" and op!="=="):
+		if ( (not isinstance(lhs_id, KS_Identifier)) and op[-1]=='=' and op!="=="):
+			print "Error: Attempted assignment to a non-identifier"
+		
+		elif (isinstance(lhs_id, KS_Identifier) and op[-1]=="=" and op!="=="):
 			#print "You wanna assign"
 			if op == "=":	# Assign_Equal
 				#print "rhsassign", lhs, rhs, rhs.__string__()
-				env_update(lhs[1], to_KS_DataType( rhs.value ), env)
+				env_update(lhs_id.name, rhs, env)
 				return rhs
 			
 			# lhs op= rhs  -->  lhs = (lhs op rhs)
-			#print "Recursive assign"
-			currentValue = eval_exp(exp[1], env).value
-			if currentValue == None:	# Never defined
-				print "Error: never assigned to identifier before. Confusing operation"
 			else:
-				return eval_exp(
-					('operator_binary', lhs, "=", 
-						('operator_binary', lhs, op[:-1], rhs)
-					),env
-					
-				)
+				#print "Recursive assign"
+				if lhs == None:	# Never defined
+					print "Error: never assigned to identifier before. Confusing operation"
+				else:
+					return eval_exp(
+						('operator_binary', lhs_id, "=", 
+							('operator_binary', lhs, op[:-1], rhs)
+						),env
+					)
 			#elif op == "+=":	# PLUS_EQUALS
 			#	env_update(lhs[1], to_KS_DataType( currentValue + rhs.value ), env)
 			#	return rhs
 		
-		# Only Assign_Equals cared what the original lhs was
-		lhs = eval_exp(exp[1], env)
-		#print "lhs", lhs
 		
 		if op == "+":		# PLUS
 			return to_KS_DataType( lhs.value + rhs.value )
@@ -338,23 +349,27 @@ def eval_exp(exp, env):
 		
 		elif op == "in":	# IN
 			#print lhs.value, "in", rhs.value
-			return to_KS_DataType( lhs.value in rhs.value )
+			return to_KS_DataType( lhs in rhs.value )
 		elif op == "has":	# HAS
-			return to_KS_DataType( rhs.value in lhs.value  )
+			return to_KS_DataType( rhs in lhs.value  )
 		
 		
 		elif op == ".":		# DOT
-		# Doesn't work right now
-			if (isinstance(exp[3], tuple) and exp[3][0]=='identifier'):
-				key = exp[3][1]
-				if (key in lhs.value):
-					return lhs.value[key]
+			# same as 'operator_array-rhs' --> 'element_at' --> object
+
+			index = rhs
+			
+			if ( isinstance(lhs, KS_Object) ):
+				if (not(index in lhs.value)):
+					# index isn't in object! quick, make it Blank!
+					lhs.value[index] = KS_Blank()
 				else:
-					lhs.value[key] = KS_Blank()
-					return lhs.value[key]
-		#	if (lhs[0]=='identifier'):
-		#		env_update(lhs[1], rhs, env)
-		#		return to_KS_DataType( lhs.value[rhs.value] )
+					# index is already defined in there
+					pass
+				
+				return lhs.value[ index ]
+			else:
+				print "Error: using dot operator, but not on object"
 		
 		
 		elif op == "<":		# LT
@@ -372,8 +387,6 @@ def eval_exp(exp, env):
 
 
 		# Error, something went wrong at this point
-		if (op[-1]=='=' and exp[1][0]=='identifier'):
-			print "Error: Attempted assignment to a non-identifier"
 		else:
 			print "Error: unknown operator_binary", exp
 
