@@ -12,39 +12,43 @@ class Environment:
 	def __init__(self, parent, book={}):
 		self.parent = parent
 		self.book = book
+	
+	def lookup(self, identifier):
+		vname = identifier.name
+		# do I have it?
+		if vname in self.book:
+			return (self.book)[vname]
+		# do I have a parent?
+		elif self.parent == None:
+			return None
+		# ask my parent
+		else:
+			return self.parent.lookup(identifier)
+	
+	def update(self, identifier, new_value):
+		name = identifier.name
+		# does the variable already exist?
+		if self.lookup(identifier) != None:
+			self.update_living(identifier, new_value)
+		# create and assign value to variable
+		else:
+			self.book[name] = new_value
+	
+	# sorta private method
+	def update_living(self, identifier, value):
+		vname = identifier.name
+		if vname in self.book:
+			(self.book)[vname] = value
+		elif not (self.parent == None):
+			self.parent.update_living(identifier,value)
+
+# The environment book is a collection of python strings and KS_DataType pairs
 
 global_env = Environment(None, {
 		'print' : KS_Function('print', None, None),
 		'range' : KS_Function('range', None, None),
 	}
 )
-
-def env_lookup(vname,env):
-	# do I have it?
-	if vname in env.book:
-		return (env.book)[vname]
-	# do I have a parent?
-	elif env.parent == None:
-		return None
-	# ask my parent
-	else:
-		return env_lookup(vname,env.parent)
-
-
-def env_update(name, new_value, env):
-	# does the variable already exist?
-	if env_lookup(name, env) != None:
-		env_update_living(name, new_value, env)
-	# create and assign value to variable
-	else:
-		env.book[name] = new_value
-
-
-def env_update_living(vname,value,env):
-        if vname in env.book:
-                (env.book)[vname] = value
-        elif not (env.parent == None):
-                env_update(vname,value,env.parent)
 
 
 
@@ -63,7 +67,7 @@ def eval_element(element, env):
 		# either named or anonymous
 		fvalue = element
 		fvalue.setEnv(env)
-		env_update(fvalue.name, fvalue, env)
+		env.update(KS_Identifier(fvalue.name), fvalue)
 	else:
 		etype = element[0]
 		if etype == 'compoundstmt':
@@ -90,13 +94,13 @@ def eval_compound(stmt, env):
 
 	
 	elif stype == "for-in":
-		key = stmt[1].name
+		key = stmt[1]
 		array = eval_exp(stmt[2], env)
 		inards = stmt[3]
 		# create new env
-		forenv = Environment(env, {key:KS_Blank()})
+		forenv = Environment(env, {key.name:KS_Blank()})
 		for i in array.aslist():
-			env_update(key, i, forenv)
+			forenv.update(key, i)
 			try:
 				interpret(inards, forenv)
 			except KS_Continue as c:
@@ -110,6 +114,7 @@ def eval_compound(stmt, env):
 		inards = stmt[2]
 		while eval_exp(condition, env).istrue():
 			try:
+				print(env.book)
 				interpret(inards, env)
 			except KS_Continue as c:
 				continue
@@ -169,26 +174,26 @@ def eval_exp(exp, env):
 		return exp
 	
 	elif isinstance(exp, KS_Identifier):
-		name = exp.name
+		name = exp
 #		print "Finding identifier " + name + "....."
 		if env.parent != None:
 			#print "Env", env.parent.book
 			pass
-		value = env_lookup(name, env)
+		value = env.lookup(name)
 		if value == None:
 			# either variable declaration, or reference
 			
 			# assume declaration though
-			env_update(name, KS_Blank(), env)
+			env.update(name, KS_Blank())
 			
-			print "Warning: evaluating identifier " + name + ". First assignment"
+			print "Warning: evaluating identifier " + name.name + ". First assignment"
 
 			# first assignment, no one can use it yet though. need another operator or future reference
 			return None
 		else:
 			# strange things happened....
-			env_update(name, eval_exp(value, env), env)
-			value = env_lookup(name, env)
+			env.update(name, eval_exp(value, env))
+			value = env.lookup(name)
 			
 			#print "Found identifier", name + ":", value
 			#print "value:", value.__string__()
@@ -202,14 +207,14 @@ def eval_exp(exp, env):
 	
 	if etype == "array-concatenation":
 		elem = exp[1]
-		key = exp[2].name
+		key = exp[2]
 		exp_array = eval_exp(exp[3], env).aslist()
 		# create new env
-		forenv = Environment(env, {key:KS_Blank()})
+		forenv = Environment(env, {key.name:KS_Blank()})
 		# generated array
 		gen_array = []
 		for e in exp_array:
-			env_update(key, e, forenv)
+			forenv.update(key, e)
 			gen_array += [ eval_exp(e, forenv) ]
 		return KS_Array(gen_array)
 	
@@ -251,8 +256,8 @@ def eval_exp(exp, env):
 					return None
 				else:
 					step=int(step)
-			else:
-				return KS_Array( array.aslist()[ start : end : step ] )
+
+			return KS_Array( array.aslist()[ start : end : step ] )
 		elif rhs[0] == "element_at":
 			index = eval_exp(rhs[1], env)
 			#print "ELEMENT-AT", index
@@ -306,7 +311,7 @@ def eval_exp(exp, env):
 			#print "You wanna assign"
 			if op == "=":	# Assign_Equal
 				#print "rhsassign", lhs, rhs, rhs.__string__()
-				env_update(lhs_id.name, rhs, env)
+				env.update(lhs_id, rhs)
 				return rhs
 			
 			# lhs op= rhs  -->  lhs = (lhs op rhs)
@@ -321,14 +326,14 @@ def eval_exp(exp, env):
 						),env
 					)
 			#elif op == "+=":	# PLUS_EQUALS
-			#	env_update(lhs[1], to_KS_DataType( currentValue + rhs.value ), env)
+			#	env.update(lhs[1], to_KS_DataType( currentValue + rhs.value ))
 			#	return rhs
 		
 		
 		if op == "+":		# PLUS
 			return to_KS_DataType( lhs.value + rhs.value )
 		elif op == "*":		# TIMES
-			print "lhs, rhs", lhs, rhs, exp[1], exp[3]
+			#print "lhs, rhs", lhs, rhs, exp[1], exp[3]
 			return to_KS_DataType( lhs.value * rhs.value )
 		elif op == "-":		# MINUS
 			return to_KS_DataType( lhs.value - rhs.value )
@@ -427,7 +432,7 @@ def eval_exp(exp, env):
 			
 		else:
 			# find the function
-			#f = env_lookup(fname,env)
+			#f = env.lookup(fname)
 			#print "ENV", env.book
 			#print "FOUND function:", fname, f
 			# if it's MIA
@@ -444,11 +449,13 @@ def eval_exp(exp, env):
 					newenv = Environment(f.env)
 					for i in range(len(argvals)):
 						# populate it with values
-						argval = argvals[i]
-						newenv.book[f.params[i][1]] = argval
+						newenv.update(f.params[i], argvals[i])
+					
+					# dont't forget to add 'this' identifier to memory
+					newenv.update(KS_Identifier("this"), f)
 					# evaluate the body in the new frame
 					try:
-						interpret(f.body,newenv)
+						interpret(f.body, newenv)
 #						print "FUNCTION", fname, "done."
 						return KS_Blank()
 					except KS_Return as r:
