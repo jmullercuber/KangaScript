@@ -409,7 +409,7 @@ def p_array_operator_missing_quadnary_start(p):
 
 def p_array_operator_missing_quadnary_startend(p):
 	'''array_operator_missing : COLON COLON expression'''
-	p[0] = ('sublist-stepped', {'start':KS_Number(0), 'end':KS_Null(), 'step':p[4]})
+	p[0] = ('sublist-stepped', {'start':KS_Number(0), 'end':KS_Null(), 'step':p[3]})
 
 def p_array_operator_missing_quadnary_all(p):
 	'''array_operator_missing : COLON COLON'''
