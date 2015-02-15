@@ -401,7 +401,12 @@ def eval_exp(exp, env):
 		#print "exp", exp[1]
 #		print "FUNCTION-CALL, finding function defined by expression", exp[1]
 		f = eval_exp(exp[1], env)
-		fname = f.name
+		
+		# what if exp wasen't a function. Just use blank name to pass if-statement, it'll be all the way handled below
+		if (f == None or not isinstance(f, KS_Function)):
+			fname = ""
+		else:
+			fname = f.name
 		#fname = exp[1][1]
 		#f = eval_exp(fname, env)
 		args = exp[2]
