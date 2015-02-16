@@ -10,6 +10,8 @@ class KS_DataType:
 		return 0
 	def __string__(self):
 		return ''
+#	def primvativesCopy(self):
+#		return to_KS_DataType(self)
 	pass
 
 
@@ -18,33 +20,26 @@ class KS_DataType:
 class KS_Identifier():
 	def __init__(self, name):
 		self.name = name
-	#	self.env = env
-	#def istrue(self):
-	#	return len(self.value) > 0
-	#def aslist(self):
-	#	return list(self.value)
-	#def asnumber(self):
-	#	return int(self.value)
-	#def __string__(self):
-	#	return self.value
 
 # representing the Blank/undefined but not null data type
 class KS_Blank(KS_DataType):
 	def __init__(self):
 		self.value = None
 	def istrue(self):
-		return false
+		return False
 
 # representing the null (i don''t have a clue) data type
 class KS_Null(KS_DataType):
 	def __init__(self):
 		self.value = None
 	def istrue(self):
-		return false
+		return False
 	def asnumber(self):
 		return None
 	def __string__(self):
 		return None
+	def primvativesCopy(self):
+		return KS_Null()
 
 class KS_Function(KS_DataType):
 	def __init__(self, name, params, body, env=None):
@@ -58,6 +53,8 @@ class KS_Function(KS_DataType):
 		return True
 	def __string__(self):
 		return 'Function ' + self.name
+	def primvativesCopy(self):
+		return self
 
 class KS_Boolean(KS_DataType):
 	def __init__(self, value):
@@ -68,6 +65,8 @@ class KS_Boolean(KS_DataType):
 		return 1 if self.value else 0
 	def __string__(self):
 		return 'true' if self.value else 'false'
+	def primvativesCopy(self):
+		return KS_Boolean(self.value)
 
 class KS_Number(KS_DataType):
 	def __init__(self, value):
@@ -78,6 +77,8 @@ class KS_Number(KS_DataType):
 		return self.value
 	def __string__(self):
 		return str(self.value)
+	def primvativesCopy(self):
+		return KS_Number(self.value)
 
 class KS_String(KS_DataType):
 	def __init__(self, value):
@@ -89,7 +90,10 @@ class KS_String(KS_DataType):
 	def asnumber(self):
 		return int(self.value)
 	def __string__(self):
-		return "'" + self.value + "'"
+		#return "'" + self.value + "'"
+		return self.value
+	def primvativesCopy(self):
+		return KS_String(self.value)
 
 class KS_Object(KS_DataType):
 	def __init__(self, value):
@@ -102,6 +106,8 @@ class KS_Object(KS_DataType):
 		return 1
 	def __string__(self):
 		return 'KS_Object ' + str(self.value)
+	def primvativesCopy(self):
+		return self
 
 class KS_Array(KS_DataType):
 	def __init__(self, value):
@@ -114,6 +120,8 @@ class KS_Array(KS_DataType):
 		return len(self.value)
 	def __string__(self):
 		return str([e.__string__() for e in self.value])
+	def primvativesCopy(self):
+		return KS_Array(self.value[:])
 
 def to_KS_DataType(x):
 #	print "TO-KS-DATATYPE", x

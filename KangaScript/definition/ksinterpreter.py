@@ -3,13 +3,14 @@ from ksdatatypes import *
 # this is it!
 # interpret the ast representation of the program
 
-
+global appleapplebananabro
+appleapplebananabro = []
 
 
 # environment
 # ------------------------------------------------
 class Environment:
-	def __init__(self, parent, book={}):
+	def __init__(self, parent, book):
 		self.parent = parent
 		self.book = book
 	
@@ -25,6 +26,10 @@ class Environment:
 		else:
 			return self.parent.lookup(identifier)
 	
+	def giveme(self, identifier, new_value=KS_Blank()):
+		name = identifier.name
+		self.book[name] = new_value
+	
 	def update(self, identifier, new_value):
 		name = identifier.name
 		# does the variable already exist?
@@ -32,15 +37,19 @@ class Environment:
 			self.update_living(identifier, new_value)
 		# create and assign value to variable
 		else:
-			self.book[name] = new_value
+			self.giveme(identifier, new_value)
 	
 	# sorta private method
 	def update_living(self, identifier, value):
 		vname = identifier.name
 		if vname in self.book:
-			(self.book)[vname] = value
-		elif not (self.parent == None):
-			self.parent.update_living(identifier,value)
+			self.giveme(identifier, value)
+		#elif not (self.parent == None):
+		else:
+			self.parent.update_living(identifier, value)
+	
+	def __string__(self):
+		return (self.parent, self.book)
 
 # The environment book is a collection of python strings and KS_DataType pairs
 
@@ -67,6 +76,9 @@ def eval_element(element, env):
 		# either named or anonymous
 		fvalue = element
 		fvalue.setEnv(env)
+		# yes, should overwrite old value by that name
+		# like assignment statement: f = function *anon* () {print(5)}
+		# so Environment.update()
 		env.update(KS_Identifier(fvalue.name), fvalue)
 	else:
 		etype = element[0]
@@ -100,7 +112,9 @@ def eval_compound(stmt, env):
 		# create new env
 		forenv = Environment(env, {key.name:KS_Blank()})
 		for i in array.aslist():
-			forenv.update(key, i)
+			# no don't overwite old values, new scope
+			# so Environment.giveme
+			forenv.giveme(key, i.primvativesCopy())
 			try:
 				interpret(inards, forenv)
 			except KS_Continue as c:
@@ -175,7 +189,7 @@ def eval_exp(exp, env):
 	
 	elif isinstance(exp, KS_Identifier):
 		name = exp
-#		print "Finding identifier " + name + "....."
+		#print "Finding identifier " + name + "....."
 		if env.parent != None:
 			#print "Env", env.parent.book
 			pass
@@ -184,7 +198,9 @@ def eval_exp(exp, env):
 			# either variable declaration, or reference
 			
 			# assume declaration though
-			env.update(name, KS_Blank())
+			# plop into current environment
+			# so Environment.giveme
+			env.giveme(name, KS_Blank())
 			
 			print "Warning: evaluating identifier " + name.name + ". First assignment"
 
@@ -192,6 +208,8 @@ def eval_exp(exp, env):
 			return None
 		else:
 			# strange things happened....
+			# yes, should overwrite old values by that name. (or what ever those strange things that happen are)
+			# so Environment.update()
 			env.update(name, eval_exp(value, env))
 			value = env.lookup(name)
 			
@@ -214,7 +232,9 @@ def eval_exp(exp, env):
 		# generated array
 		gen_array = []
 		for e in exp_array:
-			forenv.update(key, e)
+			# no don't overwite old values by that name, new scope
+			# so Environment.giveme
+			forenv.giveme(key, e.primvativesCopy())
 			gen_array += [ eval_exp(e, forenv) ]
 		return KS_Array(gen_array)
 	
@@ -304,13 +324,15 @@ def eval_exp(exp, env):
 		#print "rhs", rhs
 		#print "op", op
 		
-		if ( (not isinstance(lhs_id, KS_Identifier)) and op[-1]=='=' and op!="=="):
+		if ( (not isinstance(lhs_id, KS_Identifier)) and op[-1]=='=' and op!="==" and op!=">=" and op!="<="):
 			print "Error: Attempted assignment to a non-identifier"
 		
-		elif (isinstance(lhs_id, KS_Identifier) and op[-1]=="=" and op!="=="):
+		elif (isinstance(lhs_id, KS_Identifier) and op[-1]=="=" and op!="==" and op!=">=" and op!="<="):
 			#print "You wanna assign"
 			if op == "=":	# Assign_Equal
 				#print "rhsassign", lhs, rhs, rhs.__string__()
+				# yes, should overwrite old value by that name
+				# so Environment.update()
 				env.update(lhs_id, rhs)
 				return rhs
 			
@@ -397,9 +419,9 @@ def eval_exp(exp, env):
 
 
 	elif etype == "function-call":
-#		print "ENV", env
+		#print "ENV", env
 		#print "exp", exp[1]
-#		print "FUNCTION-CALL, finding function defined by expression", exp[1]
+		#print "FUNCTION-CALL, finding function defined by expression", exp[1]
 		f = eval_exp(exp[1], env)
 		
 		# what if exp wasen't a function. Just use blank name to pass if-statement, it'll be all the way handled below
@@ -410,11 +432,11 @@ def eval_exp(exp, env):
 		#fname = exp[1][1]
 		#f = eval_exp(fname, env)
 		args = exp[2]
-#		print "FUNCTION-CALL", f, fname
-#		print "ARGS", args
-#		print "ARGUMENTS for", fname, "will now be evaluated"
+		#print "FUNCTION-CALL", f, fname
+		#print "ARGS", args
+		#print "ARGUMENTS for", fname, "will now be evaluated"
 		argvals = [eval_exp(a,env) for a in args]
-#		print "ARGUMENTS evaluation for", fname, "done. Evaluation will take place"
+		#print "ARGUMENTS evaluation for", fname, "done. Evaluation will take place"
 		built_in_functions = ['print', 'range']
 		if fname in built_in_functions:
 			if fname == "print":
@@ -451,20 +473,26 @@ def eval_exp(exp, env):
 					print "ERROR: wrong number arguments to " + f.name
 				else:
 					# make a new environment frame
-					newenv = Environment(f.env)
+					newenv = Environment(f.env, {})
 					for i in range(len(argvals)):
 						# populate it with values
-						newenv.update(f.params[i], argvals[i])
+						# no don't overwite old values by that name, new scope
+						# so Environment.giveme
+						newenv.giveme(f.params[i], argvals[i].primvativesCopy())
 					
+					global appleapplebananabro
+					appleapplebananabro += [newenv]
 					# dont't forget to add 'this' identifier to memory
-					newenv.update(KS_Identifier("this"), f)
+					# no don't overwite previous 'this' value, new scope
+					# so Environment.giveme
+					newenv.giveme(KS_Identifier("this"), f.primvativesCopy())
 					# evaluate the body in the new frame
 					try:
 						interpret(f.body, newenv)
-#						print "FUNCTION", fname, "done."
+						#print "FUNCTION", fname, "done."
 						return KS_Blank()
 					except KS_Return as r:
-#						print "FUNCTION", fname, "done."
+						#print "FUNCTION", fname, "done."
 						return r.retval
 		# Complicated! 
 		
