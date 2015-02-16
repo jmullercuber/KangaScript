@@ -1,5 +1,6 @@
 # we WILL need KS Data Types
 from ksdatatypes import *
+import inspect
 # this is it!
 # interpret the ast representation of the program
 
@@ -75,6 +76,7 @@ def eval_element(element, env):
 	if isinstance(element, KS_Function):
 		# either named or anonymous
 		fvalue = element
+		print "CALLING SETENV. BY", inspect.stack()[1][3], "ON", fvalue.name, "FROM", fvalue.env, "TO", env
 		fvalue.setEnv(env)
 		# yes, should overwrite old value by that name
 		# like assignment statement: f = function *anon* () {print(5)}
@@ -474,6 +476,8 @@ def eval_exp(exp, env):
 				else:
 					# make a new environment frame
 					newenv = Environment(f.env, {})
+					newenv.parent = f.env
+					appleapplebananabro += [("1", newenv, f, f.env, newenv.parent)]
 					for i in range(len(argvals)):
 						# populate it with values
 						# no don't overwite old values by that name, new scope
@@ -481,7 +485,7 @@ def eval_exp(exp, env):
 						newenv.giveme(f.params[i], argvals[i].primvativesCopy())
 					
 					global appleapplebananabro
-					appleapplebananabro += [newenv]
+					appleapplebananabro += [("2", newenv, f, f.env, newenv.parent)]
 					# dont't forget to add 'this' identifier to memory
 					# no don't overwite previous 'this' value, new scope
 					# so Environment.giveme
