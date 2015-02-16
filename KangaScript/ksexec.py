@@ -28,6 +28,7 @@ elif len(sys.argv) == 3:
 	switch = sys.argv[2]
 	if switch != "-e":
 		print "Usage: exec.py [FILE] [-e]"
+		quit(1)
 	ksstring = ksfile
 
 
