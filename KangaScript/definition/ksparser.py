@@ -31,6 +31,7 @@ precedence = (
 	('left', 'TIMES', 'DIVIDE', 'MODULUS'),
 	('left', 'EXPONENT'),
 	('right', 'NOT'),
+	('left', 'LEFT_PAREN'),
 	('left', 'DOT'),
 	('left', 'LEFT_BOX'),
 )
@@ -224,9 +225,8 @@ def p_expression_literal(p):
 	p[0] = p[1]
 
 
-def p_expression_function(p):
-	'''expression : function_definition
-		| function_call'''
+def p_expression_function_definition(p):
+	'expression : function_definition'
 	p[0] = p[1]
 
 
@@ -292,13 +292,10 @@ def p_expression_this(p):
 	'expression : THIS'
 	p[0] = KS_Identifier('this')
 
-def p_function_call(p):
-	'function_call : expression arguments'
-	p[0] = ('function-call', p[1], p[2])
 
-def p_arguments(p):
-	'''arguments : LEFT_PAREN exp_list RIGHT_PAREN'''
-	p[0] = p[2]
+def p_expression_function_call(p):
+	'expression : expression LEFT_PAREN exp_list RIGHT_PAREN'
+	p[0] = ('function-call', p[1], p[3])
 
 
 def p_exp_list_empty(p):
@@ -343,8 +340,12 @@ def p_literal_string(p):
 	p[0] = KS_String(p[1])
 
 def p_literal_number(p):
-	'literal : NUMERIC_LITERAL'
-	p[0] = KS_Number(p[1])
+	'''literal : NUMERIC_LITERAL
+		| MINUS NUMERIC_LITERAL'''
+	if len(p)==3:
+		p[0] = KS_Number(-p[2])
+	elif len(p)==2:
+		p[0] = KS_Number(p[1])
 ## end interrupt
 
 

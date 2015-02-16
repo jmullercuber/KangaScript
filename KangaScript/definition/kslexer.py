@@ -138,8 +138,15 @@ def t_STRING_LITERAL_DQ(token):
 	token.value = token.value[1:-1]
 	return token
 
-def t_NUMERIC_LITERAL(token):
-	r'-?[0-9]+(?:\.[0-9]*)?'
+def t_NUMERIC_LITERAL_INT(token):
+	r'[0-9]+'
+	token.type = "NUMERIC_LITERAL"
+	token.value = int(token.value)
+	return token
+
+def t_NUMERIC_LITERAL_FLOAT(token):
+	r'[0-9]+\.[0-9]+'
+	token.type = "NUMERIC_LITERAL"
 	token.value = float(token.value)
 	return token
 
