@@ -239,7 +239,7 @@ def eval_exp(exp, env):
 			# no don't overwite old values by that name, new scope
 			# so Environment.giveme
 			forenv.giveme(key, e.primvativesCopy())
-			gen_array += [ eval_exp(e, forenv) ]
+			gen_array += [ eval_exp(elem, forenv) ]
 		return KS_Array(gen_array)
 	
 	
