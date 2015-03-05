@@ -48,7 +48,7 @@ class KS_Function(KS_DataType):
 		self.body = body
 		self.env = env
 	def setEnv(self, env):
-		print "HEY! , CHANGING FUNC ENV OVER HERE. BY", inspect.stack()[1][3], "ON", self.name, "FROM", self.env, "TO", env
+		#print "HEY! , CHANGING FUNC ENV OVER HERE. BY", inspect.stack()[1][3], "ON", self.name, "FROM", self.env, "TO", env
 		self.env = env
 	def istrue(self):
 		return True

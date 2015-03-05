@@ -76,7 +76,7 @@ def eval_element(element, env):
 	if isinstance(element, KS_Function):
 		# either named or anonymous
 		fvalue = element
-		print "CALLING SETENV. BY", inspect.stack()[1][3], "ON", fvalue.name, "FROM", fvalue.env, "TO", env
+		#  print "CALLING SETENV. BY", inspect.stack()[1][3], "ON", fvalue.name, "FROM", fvalue.env, "TO", env
 		fvalue.setEnv(env)
 		# yes, should overwrite old value by that name
 		# like assignment statement: f = function *anon* () {print(5)}
@@ -130,7 +130,7 @@ def eval_compound(stmt, env):
 		inards = stmt[2]
 		while eval_exp(condition, env).istrue():
 			try:
-				print(env.book)
+				#  print(env.book)
 				interpret(inards, env)
 			except KS_Continue as c:
 				continue
@@ -178,7 +178,7 @@ def eval_simple(stmt, env):
 			print "Error: unknown simplestmt", stmt, stmt[0]
 
 def eval_exp(exp, env):
-	
+	#  print("....................Made it to eval_exp.............")
 	if isinstance(exp, KS_Function):
 		# don't forget to set the environment!!!
 		eval_element(exp, env)
@@ -190,12 +190,14 @@ def eval_exp(exp, env):
 		return exp
 	
 	elif isinstance(exp, KS_Identifier):
+		#  print ">>>>>>>>>>   It's an identifier !!! <<<<<<<<"
 		name = exp
 		#print "Finding identifier " + name + "....."
 		if env.parent != None:
 			#print "Env", env.parent.book
 			pass
 		value = env.lookup(name)
+		#  print "-------------'bout that identifier, figured value-------"
 		if value == None:
 			# either variable declaration, or reference
 			
@@ -212,8 +214,8 @@ def eval_exp(exp, env):
 			# strange things happened....
 			# yes, should overwrite old values by that name. (or what ever those strange things that happen are)
 			# so Environment.update()
-			env.update(name, eval_exp(value, env))
-			value = env.lookup(name)
+		#	env.update(name, eval_exp(value, env))
+		#	value = env.lookup(name)
 			
 			#print "Found identifier", name + ":", value
 			#print "value:", value.__string__()
@@ -421,10 +423,12 @@ def eval_exp(exp, env):
 
 
 	elif etype == "function-call":
+		#  print ">>>>>>>>>>   It's a function call !!! <<<<<<<<"
 		#print "ENV", env
 		#print "exp", exp[1]
 		#print "FUNCTION-CALL, finding function defined by expression", exp[1]
 		f = eval_exp(exp[1], env)
+		#  print "-------------'bout that function call, figured value-------"
 		
 		# what if exp wasen't a function. Just use blank name to pass if-statement, it'll be all the way handled below
 		if (f == None or not isinstance(f, KS_Function)):
