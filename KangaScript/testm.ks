@@ -1,88 +1,29 @@
-grid=[]
-for i in range(50):
-	if i == 9 or i == 10 or i == 12 or i == 13:
-		grid += [1]
-	otherwise:
-		grid += [0]
-	endif
+# Thanks to the code at http://rosettacode.org/wiki/Sierpinski_triangle#Python
+# off which this is based!
+
+# sierpinski() returns an array representing the sierpinski triangle
+# each element is a row of the graphic
+# the triangle has n mini triangles
+function sierpinski(n):
+    d = ["*"]
+    
+    for i in range(n):
+        sp = " " * (2^i)
+        d = [sp+x+sp for x in d] + [x+" "+x for x in d]
+    endfor
+    
+    return d
+    
+endfunction
+
+
+# print out all the rows now!
+for l in sierpinski(4):
+    print(l)
 endfor
 
-#.....................................................
-sz = x = timeset = 0		# drawGrid
-xin = neighborself = blank	# testSpot
-NewGrid = blank				# next
-acceptedArray = [1, 4, 7]
-#.....................................................
+# print!
+print("")
+print("Hey Ms. McDonnell, it's KangaScript!")
+print("")
 
-
-function drawGrid():
-	# no code to reset the screen
-	# continuous flow
-	
-	result = ""
-	for data in grid:
-		if data == 1:
-			result += "X"
-		otherwise:
-			result += " "
-		endif
-	endfor
-	
-	print(result)
-	timeset += 1
-endfunction
-
-
-function next():
-	NewGrid = []
-	for sx in range(50):
-		
-		
-		nebnumb = 0
-		
-		
-		# testSpot
-		p = -1
-		while p < 2:
-			if (sx + p < 0):
-				xin = 50 - 1
-			elif (sx + p > 50 - 1):
-				xin = 0
-			otherwise:
-				xin = sx + p
-			endif
-			print(xin)
-			print(grid[xin])
-			neighbor = (grid[xin])
-			nebnumb += 2^(p+1)*neighbor
-			p += 1
-		endwhile
-		
-		
-		
-		# evaluate
-		e = 0
-		for a in acceptedArray:
-			if (nebnumb == a):
-				e = 1
-				break
-			endif
-		endfor
-		
-		
-		NewGrid += [e]
-	endfor
-	grid = NewGrid
-endfunction
-
-
-# main
-function draw():
-	#drawGrid()
-	next()
-endfunction
-
-draw()
-draw()
-draw()
-draw()
