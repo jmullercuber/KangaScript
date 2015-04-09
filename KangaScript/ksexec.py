@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # I'll need this to use command arguments
 import sys, os.path
 # let's get the one instance of the KS Parser
