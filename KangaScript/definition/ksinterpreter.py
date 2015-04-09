@@ -140,6 +140,7 @@ def eval_compound(stmt, env):
 	
 	else:
 		print "Error: unknown compoundstmt", element
+# done evaluating compound statement
 
 def eval_simple(stmt, env):
 	
@@ -176,6 +177,7 @@ def eval_simple(stmt, env):
 		
 		else:
 			print "Error: unknown simplestmt", stmt, stmt[0]
+# done evaluating simple statement
 
 def eval_exp(exp, env):
 	#  print("....................Made it to eval_exp.............")
@@ -317,13 +319,19 @@ def eval_exp(exp, env):
 		# right now boolean short circuit eval doesn't work
 		#print "a", exp[1]
 		#print "b", exp[3]
-		lhs = eval_exp(exp[1], env)
-		op = exp[2]
-		rhs = eval_exp(exp[3], env)
-
 		lhs_id = exp[1]
+		op = exp[2]
 		rhs_id = exp[3]
 		
+		
+		# Important, interrupt for dot operators
+		if op == ".":		# DOT
+			return eval_exp_DOT_operator(exp, env)
+		
+		
+		lhs = eval_exp(exp[1], env)
+		rhs = eval_exp(exp[3], env)
+
 		#print "lhs", lhs
 		#print "rhs", rhs
 		#print "op", op
@@ -508,3 +516,38 @@ def eval_exp(exp, env):
 		
 	else:
 		print "Error: unknown expression", exp
+# end evaluating the expression
+
+# this function is for the sole purpose of handeling the binary dot operator
+# easily, and away from all the other operators
+def eval_exp_DOT_operator(exp, env):
+	
+	lhs_id = exp[1]
+	op = exp[2]
+	assert op == "."
+	rhs_id = exp[3]
+	
+	
+	lhs = eval_exp(lhs_id, env)
+	rhs = rhs_id
+	assert isinstance(rhs, KS_Identifier)
+	####DO NOT EVAL RHS!!!#####
+	
+	# replaces from eval_exp(): -->  elif etype == "operator_binary": --> elif op == ".":		# DOT
+	# same functionality as 'operator_array-rhs' --> 'element_at' --> object
+	
+	index = rhs.name
+	
+	if ( isinstance(lhs, KS_Object) ):
+		if (not(index in lhs.value)):
+			# index isn't in object! quick, make it Blank!
+			lhs.value[index] = KS_Blank()
+		else:
+			# index is already defined in there
+			pass
+		
+		return lhs.value[ index ]
+	else:
+		print "Error: using dot operator, but not on object"
+	
+# done evaluating expression with dot operator
