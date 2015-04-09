@@ -260,7 +260,7 @@ def p_expression_binary(p):
 		| expression EXPONENT_EQUALS expression
 		| expression AND_EQUALS expression
 		| expression OR_EQUALS expression
-		| expression DOT expression
+		| expression DOT expression_identifier
 		| expression PLUS expression
 		| expression MINUS expression
 		| expression TIMES expression
