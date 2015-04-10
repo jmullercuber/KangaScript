@@ -434,10 +434,15 @@ def eval_exp(exp, env):
 		
 		
 		# what if exp wasen't a function!
-		# Just use blank name to pass if-statement
-		# it'll be all the way handled below
-		if (f == None or not isinstance(f, KS_Function)):
-			fname = ""
+		# if it's MIA
+		if f == None:
+			print "ERROR: call to undefined identifier", exp[1]
+			return
+		# ... or not even a function
+		# we have a really, big problem!
+		elif not isinstance(f, KS_Function):
+			print "ERROR: call to non-function", f.__string__()
+			return
 		# if exp WAS a function, let's learn its name!
 		else:
 			fname = f.name
@@ -480,61 +485,54 @@ def eval_exp(exp, env):
 			# so use the KS_Function definition
 			# it was declared a bit ago as f
 			
-			# if it's MIA
-			if f == None:
-				print "ERROR: call to undefined identifier", fname
-			# ... or not even a function
-			# we have a really, big problem!
-			elif not isinstance(f, KS_Function):
-				print "ERROR: call to non-function", fname
+			# its all good brah!
 			
-			# but if not, its all good
+			
+			# this is the anatomy of a function
+			# in case you forget
+			# f.name, f.params, f.body, f.env
+			
+			# one more possible error... invalid argument count
+			if len(f.params) <> len(args):
+				print "ERROR: wrong number arguments to " + f.name
 			else:
-				# these are the parts of a function
-				# in case you forget
-				# f.name, f.params, f.body, f.env
+				# make a new environment frame
+				# the parent env is based on where the function was declared!!!!!
+				# definitely not the current env
+				newenv = Environment(f.env, {})
+				newenv.parent = f.env  # repetitive???
 				
-				# one more possible error... invalid argument count
-				if len(f.params) <> len(args):
-					print "ERROR: wrong number arguments to " + f.name
-				else:
-					# make a new environment frame
-					# the parent env is based on where the function was declared!!!!!
-					# definitely not the current env
-					newenv = Environment(f.env, {})
-					newenv.parent = f.env  # repetitive???
-					
-					# populate the new environment with values
-					for i in range(len(argvals)):
-						# don't overwite old values (like in the parent env(s)) by that name,
-						# because values are being declared in new scope
-						# so use the method Environment.giveme
-						
-						# sending copy of simple values,
-						# but real thing of complex datatypes,
-						# so use the method [KS_DataType].primvativesCopy
-						
-						newenv.giveme(f.params[i], argvals[i].primvativesCopy())
-					
-					# do not forget to add 'this' identifier to memory
-					# 'this' refers to the function itself
-					# don't overwite previous 'this' value, new scope
+				# populate the new environment with values
+				for i in range(len(argvals)):
+					# don't overwite old values (like in the parent env(s)) by that name,
+					# because values are being declared in new scope
 					# so use the method Environment.giveme
-					newenv.giveme(KS_Identifier("this"), f.primvativesCopy())
 					
+					# sending copy of simple values,
+					# but real thing of complex datatypes,
+					# so use the method [KS_DataType].primvativesCopy
 					
-					# evaluate the body in the new frame
-					try:
-						interpret(f.body, newenv)
-						# function fname done.
-						# default return value is blank
-						return KS_Blank()
-					
-					# if it decides to interrupt and give you a return value
-					# extract it, and pass it up
-					except KS_Return as r:
-						# function fname done.
-						return r.retval
+					newenv.giveme(f.params[i], argvals[i].primvativesCopy())
+				
+				# do not forget to add 'this' identifier to memory
+				# 'this' refers to the function itself
+				# don't overwite previous 'this' value, new scope
+				# so use the method Environment.giveme
+				newenv.giveme(KS_Identifier("this"), f.primvativesCopy())
+				
+				
+				# evaluate the body in the new frame
+				try:
+					interpret(f.body, newenv)
+					# function fname done.
+					# default return value is blank
+					return KS_Blank()
+				
+				# if it decides to interrupt and give you a return value
+				# extract it, and pass it up
+				except KS_Return as r:
+					# function fname done.
+					return r.retval
 		# Complicated! 
 		
 		
