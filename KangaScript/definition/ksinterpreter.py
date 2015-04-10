@@ -1,11 +1,8 @@
 # we WILL need KS Data Types
 from ksdatatypes import *
-import inspect
 # this is it!
 # interpret the ast representation of the program
 
-global appleapplebananabro
-appleapplebananabro = []
 
 
 # environment
@@ -74,13 +71,16 @@ def interpret(ast, env):
 def eval_element(element, env):
 	# function definition
 	if isinstance(element, KS_Function):
-		# either named or anonymous
+		# it'll be either named or anonymous
 		fvalue = element
-		#  print "CALLING SETENV. BY", inspect.stack()[1][3], "ON", fvalue.name, "FROM", fvalue.env, "TO", env
+		
+		#  set the environment on fvalue from fvalue.env to current env
 		fvalue.setEnv(env)
-		# yes, should overwrite old value by that name
+		
+		# yes, if you're asking, you should overwrite old value by that name
+		# ... if they exist, that is
 		# like assignment statement: f = function *anon* () {print(5)}
-		# so Environment.update()
+		# so use the method Environment.update()
 		env.update(KS_Identifier(fvalue.name), fvalue)
 	else:
 		etype = element[0]
@@ -130,7 +130,6 @@ def eval_compound(stmt, env):
 		inards = stmt[2]
 		while eval_exp(condition, env).istrue():
 			try:
-				#  print(env.book)
 				interpret(inards, env)
 			except KS_Continue as c:
 				continue
@@ -180,7 +179,7 @@ def eval_simple(stmt, env):
 # done evaluating simple statement
 
 def eval_exp(exp, env):
-	#  print("....................Made it to eval_exp.............")
+	#  ....................Made it to eval_exp!!!.............!!!
 	if isinstance(exp, KS_Function):
 		# don't forget to set the environment!!!
 		eval_element(exp, env)
@@ -192,14 +191,14 @@ def eval_exp(exp, env):
 		return exp
 	
 	elif isinstance(exp, KS_Identifier):
-		#  print ">>>>>>>>>>   It's an identifier !!! <<<<<<<<"
+		#  >>>>>>>>>>   It's an identifier !!! <<<<<<<<
 		name = exp
 		#print "Finding identifier " + name + "....."
 		if env.parent != None:
 			#print "Env", env.parent.book
 			pass
 		value = env.lookup(name)
-		#  print "-------------'bout that identifier, figured value-------"
+		#  -------------'bout that identifier, figured value-------
 		if value == None:
 			# either variable declaration, or reference
 			
@@ -209,18 +208,14 @@ def eval_exp(exp, env):
 			env.giveme(name, KS_Blank())
 			
 			print "Warning: evaluating identifier " + name.name + ". First assignment"
-
+			
 			# first assignment, no one can use it yet though. need another operator or future reference
 			return None
 		else:
-			# strange things happened....
-			# yes, should overwrite old values by that name. (or what ever those strange things that happen are)
-			# so Environment.update()
-		#	env.update(name, eval_exp(value, env))
-		#	value = env.lookup(name)
+			# strange things happened here....
+			# let us not forget it
 			
-			#print "Found identifier", name + ":", value
-			#print "value:", value.__string__()
+			# Found identifier, name, with value, value
 			return value
 		#if isinstance(value, KS_Blank):
 		#	print "ERROR: unbound variable " + vname
@@ -431,84 +426,114 @@ def eval_exp(exp, env):
 
 
 	elif etype == "function-call":
-		#  print ">>>>>>>>>>   It's a function call !!! <<<<<<<<"
-		#print "ENV", env
-		#print "exp", exp[1]
-		#print "FUNCTION-CALL, finding function defined by expression", exp[1]
+		# >>>>>>>>>>   It's a function call !!! <<<<<<<<
+		# finding function, f, defined by expression, exp[1]
+		# if exp[1] is an identifier fname, eval_exp will look it up in env
+		# otherwise, exp[1] could be a function definition or other such expression returning KS_Function
 		f = eval_exp(exp[1], env)
-		#  print "-------------'bout that function call, figured value-------"
 		
-		# what if exp wasen't a function. Just use blank name to pass if-statement, it'll be all the way handled below
+		
+		# what if exp wasen't a function!
+		# Just use blank name to pass if-statement
+		# it'll be all the way handled below
 		if (f == None or not isinstance(f, KS_Function)):
 			fname = ""
+		# if exp WAS a function, let's learn its name!
 		else:
 			fname = f.name
-		#fname = exp[1][1]
-		#f = eval_exp(fname, env)
+		
+		
+		# arguments for fname will now be evaluated
+		# exp[2] is a list, entries being fname's parameters
 		args = exp[2]
-		#print "FUNCTION-CALL", f, fname
-		#print "ARGS", args
-		#print "ARGUMENTS for", fname, "will now be evaluated"
+		# using array concatenation makes for succinct code
+		# create a new list vals, with evaluated/simplified parameters
 		argvals = [eval_exp(a,env) for a in args]
-		#print "ARGUMENTS evaluation for", fname, "done. Evaluation will take place"
+		# argument evaluation done
+		
+		
+		# Evaluation will now take place
+		
+		# Take a look at the built-in functions tho
 		built_in_functions = ['print', 'range']
+		# if we're calling a built-in, the code implementation is HERE
 		if fname in built_in_functions:
 			if fname == "print":
-				#print "PRINTING... exp ... ", argval,env
-				#print "ENV", env.book
+				# PRINT every argument in argval
+				# hense, array concatenation, and string join
 				print ' '.join([e.__string__() for e in argvals])
-				#print "FUNCTION", fname, "done."
+				return None
+				# function fname done.
 			
 			elif fname == "range":
+				# RANGE returns a KS_Array
+				# elements being consecutive integers 0 ... to end
+				# array concatenation you see
+				# PRO: to make it awesome, using to_KS_DataType(  range(blah)  )
 				end = argvals[0]
-				#print "RANGE... 0 to ... ", end,env
-				#print "ENV", env.book
-				arr = [
-					KS_Number(i)
-					for i in
-					range(0, int(end.asnumber()))
-				]
-				#print "FUNCTION", fname, "done."
-				return KS_Array(arr)
+				arr = to_KS_DataType(  range( int(end.asnumber()) )  )
+				return arr
+				# function fname done.
 			
 		else:
-			# find the function
-			#f = env.lookup(fname)
-			#print "ENV", env.book
-			#print "FOUND function:", fname, f
+			# function implementation is not built-in,
+			# so use the KS_Function definition
+			# it was declared a bit ago as f
+			
 			# if it's MIA
 			if f == None:
 				print "ERROR: call to undefined identifier", fname
+			# ... or not even a function
+			# we have a really, big problem!
 			elif not isinstance(f, KS_Function):
-				print "ERROR: call to non-function " + fname
+				print "ERROR: call to non-function", fname
+			
+			# but if not, its all good
 			else:
-				#f.name, f.params, f.body, f.env
+				# these are the parts of a function
+				# in case you forget
+				# f.name, f.params, f.body, f.env
+				
+				# one more possible error... invalid argument count
 				if len(f.params) <> len(args):
 					print "ERROR: wrong number arguments to " + f.name
 				else:
 					# make a new environment frame
+					# the parent env is based on where the function was declared!!!!!
+					# definitely not the current env
 					newenv = Environment(f.env, {})
-					newenv.parent = f.env
-					appleapplebananabro += [("1", newenv, f, f.env, newenv.parent)]
+					newenv.parent = f.env  # repetitive???
+					
+					# populate the new environment with values
 					for i in range(len(argvals)):
-						# populate it with values
-						# no don't overwite old values by that name, new scope
-						# so Environment.giveme
+						# don't overwite old values (like in the parent env(s)) by that name,
+						# because values are being declared in new scope
+						# so use the method Environment.giveme
+						
+						# sending copy of simple values,
+						# but real thing of complex datatypes,
+						# so use the method [KS_DataType].primvativesCopy
+						
 						newenv.giveme(f.params[i], argvals[i].primvativesCopy())
 					
-					global appleapplebananabro
-					appleapplebananabro += [("2", newenv, f, f.env, newenv.parent)]
-					# dont't forget to add 'this' identifier to memory
-					# no don't overwite previous 'this' value, new scope
-					# so Environment.giveme
+					# do not forget to add 'this' identifier to memory
+					# 'this' refers to the function itself
+					# don't overwite previous 'this' value, new scope
+					# so use the method Environment.giveme
 					newenv.giveme(KS_Identifier("this"), f.primvativesCopy())
+					
+					
 					# evaluate the body in the new frame
 					try:
 						interpret(f.body, newenv)
-						#print "FUNCTION", fname, "done."
+						# function fname done.
+						# default return value is blank
 						return KS_Blank()
+					
+					# if it decides to interrupt and give you a return value
+					# extract it, and pass it up
 					except KS_Return as r:
-						#print "FUNCTION", fname, "done."
+						# function fname done.
 						return r.retval
 		# Complicated! 
 		
@@ -529,8 +554,7 @@ def eval_exp_DOT_operator(exp, env):
 	
 	
 	lhs = eval_exp(lhs_id, env)
-	rhs = rhs_id
-	assert isinstance(rhs, KS_Identifier)
+	rhs = rhs_id    # assert isinstance(rhs, KS_Identifier)
 	####DO NOT EVAL RHS!!!#####
 	
 	# replaces from eval_exp(): -->  elif etype == "operator_binary": --> elif op == ".":		# DOT
