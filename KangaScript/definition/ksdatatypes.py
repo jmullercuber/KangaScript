@@ -1,6 +1,6 @@
 # data types
 # ------------------------------------------------
-import inspect
+
 class KS_DataType:
 	def istrue(self):
 		return false
@@ -48,7 +48,6 @@ class KS_Function(KS_DataType):
 		self.body = body
 		self.env = env
 	def setEnv(self, env):
-		#print "HEY! , CHANGING FUNC ENV OVER HERE. BY", inspect.stack()[1][3], "ON", self.name, "FROM", self.env, "TO", env
 		self.env = env
 	def istrue(self):
 		return True
@@ -135,9 +134,9 @@ def to_KS_DataType(x):
 	elif (type(x) is bool):
 		return KS_Boolean(x)
 	elif (type(x) is list):
-		return KS_Array(x)
+		return KS_Array(  [to_KS_DataType(y) for y in x]  )
 	elif (type(x) is dict):
-		return KS_Object(x)
+		return KS_Object(  { k:to_KS_DataType(x[k]) for k in x}  )
 	else:
 		return KS_Null()
 
