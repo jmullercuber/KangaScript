@@ -5,4 +5,4 @@ With ksexec.py on your path/ in your directory type, as well as the ks file, typ
 
 `$> python ksexec.py test.ks`
 
-print statements are interpreted as python prints, and will be show where ever python would have
+print statements are interpreted as python prints, and will be show wherever python would have

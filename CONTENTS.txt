@@ -1,0 +1,8 @@
+Location: Super-Calculator/
+
+Contents:
+  CS262/ - Some of the programs I made during the Udacity course CS262, taken to help me develop my project
+  
+  KangaScript/ - EVERYTHING you'll need related to my custom language KangaScript
+  
+  LICENSE - The usage license for my project

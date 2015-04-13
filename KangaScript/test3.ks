@@ -7,7 +7,9 @@ print(n)	# 10
 print (n==9)
 print (n==10)
 
-m = {'n':{'l':2}}
+m = {
+  'n': {'l':2}
+}
 print(m)
 #m.n.l
 print(m.n)

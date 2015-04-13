@@ -16,6 +16,9 @@ endfunction
 
 rec(0)
 
+
+# Functions inside of functions
+
 function fungen(hello):
 	return function (name):
 		print(hello)

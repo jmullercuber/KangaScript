@@ -1,0 +1,16 @@
+Location: Super-Calculator/KangaScript
+
+Note: You must have Python 2.7 installed to demo KangaScript. A completely stand-alone executable has not been developed yet
+
+Contents:
+  definition/ - The lexer, parser, and interpreter behind KangaScript. Most notable files are: ksinterpreter.py, ksdatatypes.py, ksparser.py, kslexer.py. Everything else was auto generated content. I used the ply library
+  
+  demos/ - My best examples of KangaScript programs. To execute from command line, see README.md. Favs is testm.ks. isprime.ks is cool too and serves as evidence that external testing was part of my development process
+  
+  KangaScript Language Documentation.pdf - A very long document that covers almost* everything you'd need to know to program in KangaScript. * It is incomplete near the end, but not too badly
+  
+  kangascript.lang - I used the cross-platfortm gedit <https://wiki.gnome.org/Apps/Gedit> text editor for code development. If you install gedit and follow the instructions in Super-Calculator/README.md you can get a nice syntax highlighting for editing KangaScript programs
+  
+  ksexec.py - The runner for KangaScript programs. Please follow instructions in README.md. General execution syntax from command line is `$> python ksexec.py demos/testm.ks`
+  
+  various test#.ks files - Short KS programs I used while testing and developing language. These are just as executable as demos/..., but may cause errors
