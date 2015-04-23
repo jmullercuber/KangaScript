@@ -1,8 +1,8 @@
-Super-Calculator
+KangaScript
 ================
 
-For my 2014-2015 Senior Project, I bring forth a calculator, and it's gonna be awesome
-
+For my 2014-2015 Senior Project, I bring forth a new language, and it's gonna be awesome
+(Note, original repository was named Super-Calculator, because project was intended to be a super cool graphing calculator. That changed, but arguably for the better. Now we have KangaScript!)
 
 Execution
 ---------
