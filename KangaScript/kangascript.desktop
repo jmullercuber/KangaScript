@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=KangaScript (v0.1)
+Comment=KangaScript Interpreter (v0.1)
+Exec=/Programming_Projects/Super-Calculator/KangaScript/ksexec.py
+Icon=/usr/share/pixmaps/python2.7.xpm
+Terminal=true
+Type=Application
+Categories=Development;
+MimeType=application/kangascript;

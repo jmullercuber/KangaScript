@@ -1,0 +1,24 @@
+Add Mimetype
+
+http://askubuntu.com/questions/179865/how-do-i-change-the-mime-type-for-a-file
+http://askubuntu.com/questions/13447/how-do-i-change-the-default-text-editor
+
+
+Command:   gksudo gedit /etc/mime.types
+Add line:  "application/kangascript                   ks"
+
+
+Take the file kangascript.desktop, (maybe edit), put into /usr/share/applications/
+
+
+Command:   gksudo gedit /usr/share/applications/defaults.list
+Add line:  "application/kangascript=kangascript.desktop"
+
+
+Using File Types Editor program
+New >
+  General - Category:Multipurpose files, Name:application/kangascript, Description: KangaScript Program
+  Filenames - Add: "*.ks"
+  OK
+
+
