@@ -40,3 +40,6 @@ print ""
 ast = parser.parse(ksstring)
 #print ast
 interpret(ast, global_env)
+
+# formal exit
+raw_input("Press Enter to Exit")
