@@ -207,7 +207,7 @@ def eval_exp(exp, env):
 			# so Environment.giveme
 			env.giveme(name, KS_Blank())
 			
-			print "Warning: evaluating identifier " + name.name + ". First assignment"
+			#print "Warning: evaluating identifier " + name.name + ". First assignment"
 			
 			# first assignment, no one can use it yet though. need another operator or future reference
 			return None
