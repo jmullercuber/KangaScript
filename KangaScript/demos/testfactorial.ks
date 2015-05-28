@@ -6,6 +6,7 @@ function factorial(n):
 	endif
 endfunction
 
+# Print the factorials of the first 10 whole numbers
 for i in range(10):
-	print (factorial(i))
+	print (factorial(i+1))
 endfor

@@ -11,7 +11,7 @@ function sierpinski(n):
         sp = " " * (2^i)
         d = [sp+x+sp for x in d] + [x+" "+x for x in d]
     endfor
-    print("it's sierpinski", this)
+    #print("it's sierpinski", this)
     return d
     
 endfunction

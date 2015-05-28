@@ -5,6 +5,12 @@
 #   When run, the whole program finds the first 10 primes
 
 function isPrime(n):
+	### Ammended by Joey Muller ###
+	# 1 and below are not prime
+	if n < 2:
+	  return false
+	endif
+	### End Ammend ###
 	count = 0
 	for i in range(n):
 		a = n%(i + 1)
