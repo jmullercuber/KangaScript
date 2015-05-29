@@ -1,0 +1,7 @@
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Temporary Files
+*~
