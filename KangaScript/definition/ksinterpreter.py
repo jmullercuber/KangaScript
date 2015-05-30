@@ -63,8 +63,10 @@ global_env = Environment(None, {
 #
 # --------------------------------------------------
 def interpret(ast, env):
-	for element in ast:
+	for element in ast[:-1]:
 		eval_element(element, env)
+	# return the value of the last element (:)s for interpretation)
+	return eval_element(ast[-1], env)
 	# done going through every element
 # done interpreting!
 
@@ -82,12 +84,13 @@ def eval_element(element, env):
 		# like assignment statement: f = function *anon* () {print(5)}
 		# so use the method Environment.update()
 		env.update(KS_Identifier(fvalue.name), fvalue)
+		return fvalue
 	else:
 		etype = element[0]
 		if etype == 'compoundstmt':
-			eval_compound(element[1], env)
+			return eval_compound(element[1], env)
 		elif etype == 'simplestmt':
-			eval_simple(element[1], env)
+			return eval_simple(element[1], env)
 		else:
 			print "Error: unknown element", element
 # done evaluating element
@@ -171,7 +174,7 @@ def eval_simple(stmt, env):
 		
 		elif stype == "expression":
 			expression = stmt[1]
-			eval_exp(expression, env)
+			return eval_exp(expression, env)
 		
 		
 		else:
