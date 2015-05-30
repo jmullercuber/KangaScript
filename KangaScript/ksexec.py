@@ -1,45 +1,84 @@
 #!/usr/bin/env python
 
 # I'll need this to use command arguments
+import argparse
 import sys, os.path
 # let's get the one instance of the KS Parser
-from definition.ksparser import parser
-from definition.ksinterpreter import interpret, global_env
+from definition.ksparser import parser as ksparser
+from definition.ksinterpreter import interpret as ksinterpret
+from definition.ksinterpreter import global_env as ks_global_env
+from definition.ksdatatypes import KS_Blank
+from ksinteractive import ks_interactive
 
-# make sure to get the correct CL arguments
-if len(sys.argv) != 2 and len(sys.argv) != 3 :
-	print "Usage: exec.py [FILE] [-e]"
+##############  ARG PARSE STUFF HERE  #################
+# Create the command line argument parser
+cl_parser = argparse.ArgumentParser(description='Execute KangaScript programs.')
+
+# Add arguments to look for
+# i, Interactive Mode
+cl_parser.add_argument('-i', '--interactive', action='store_true', dest='interactive_mode', required=False)
+
+# s, Show Source
+cl_parser.add_argument('-s', '--show_source', action='store_true', dest='show_source', required=False)
+
+# String or file argument group
+script_group = cl_parser.add_mutually_exclusive_group()
+
+# e, Execute String
+script_group.add_argument('-e', '--execute', type=str, action='store', dest='ksstring')
+
+# f/F, filename
+script_group.add_argument('-f', '-F', '--file', action='store', type=argparse.FileType('r'), dest='ksfile')
+
+# filename
+#script_group.add_argument('ksfile', action='store', type=file, required=False)
+
+
+# Evaluate Args
+cl_args = cl_parser.parse_args()
+
+# Act with those arguments!
+## Determine the ks script
+## Evaluate the script
+## If interactive, stay open
+
+## Determine the ks script
+if cl_args.ksfile:
+	# stuff to execute is in file stored in ksfile arg
+	cl_args.ksstring = cl_args.ksfile.read()
+	cl_args.ksfile.close()
+elif not cl_args.ksstring:  # no arguments, interactive mode
+	ks_interactive()
 	quit(1)
+else:
+	# stuff to execute is already stored in ksstring arg
+	pass
+# end if gettting the ks string
 
-# the file location we want
-ksfile = sys.argv[1]
-ksstring = ""
+##############  ARG PARSE STUFF HERE  #################
 
-if len(sys.argv) == 2:
-	# make sure argument actually is a file
-	if not os.path.isfile(ksfile):
-		print "File", ksfile, "Does not exist"
-		print "Usage: exec.py [FILE] [-e]"
-		quit(1)
-		
-	# get the file into a string to read
-	with open(ksfile, "r") as myfile:
-	    ksstring = myfile.read()
-
-elif len(sys.argv) == 3:
-	switch = sys.argv[2]
-	if switch != "-e":
-		print "Usage: exec.py [FILE] [-e]"
-		quit(1)
-	ksstring = ksfile
+# Determine to echo source
+if cl_args.show_source:
+	print cl_args.ksstring
+	print "#"*10 + "EOF" + "#"*10
+	print ""
+# end if determining whether to echo source
 
 
-print ksstring
-print "#"*10 + "EOF" + "#"*10
-print ""
-ast = parser.parse(ksstring)
-#print ast
-interpret(ast, global_env)
+## Evaluate the script
+ast = ksparser.parse(cl_args.ksstring)
+res = ksinterpret(ast, ks_global_env)
+if res != None and not isinstance(res, KS_Blank):
+	print res
+# showing the result
 
-# formal exit
-raw_input("Press Enter to Exit")
+
+## If interactive, stay open
+if not cl_args.interactive_mode:
+	# formal exit
+	raw_input("Press Enter to Exit")
+	quit(1)
+# end if determining what to do if NOT interactive
+
+# if this far, is interactive!
+ks_interactive()
