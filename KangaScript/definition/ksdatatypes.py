@@ -37,7 +37,7 @@ class KS_Null(KS_DataType):
 	def asnumber(self):
 		return None
 	def __string__(self):
-		return None
+		return "null"
 	def primvativesCopy(self):
 		return KS_Null()
 
