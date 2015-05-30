@@ -63,11 +63,13 @@ global_env = Environment(None, {
 #
 # --------------------------------------------------
 def interpret(ast, env):
-	for element in ast[:-1]:
-		eval_element(element, env)
-	# return the value of the last element (:)s for interpretation)
-	return eval_element(ast[-1], env)
-	# done going through every element
+	if len(ast) > 0:
+		for element in ast[:-1]:
+			eval_element(element, env)
+		# return the value of the last element (:)s for interpretation)
+		return eval_element(ast[-1], env)
+		# done going through every element
+	# end if checking non empty tree
 # done interpreting!
 
 def eval_element(element, env):
