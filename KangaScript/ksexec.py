@@ -66,11 +66,16 @@ if cl_args.show_source:
 
 
 ## Evaluate the script
-ast = ksparser.parse(cl_args.ksstring)
-res = ksinterpret(ast, ks_global_env)
-if res != None and not isinstance(res, KS_Blank):
-	print res
-# showing the result
+try:
+    ast = ksparser.parse(cl_args.ksstring)
+    res = ksinterpret(ast, ks_global_env)
+    if res != None and not isinstance(res, KS_Blank):
+        print res
+    # showing the result
+except SyntaxError:
+    # syntax errors already taken care of in parser
+    pass
+# end try-except handeling KangaScript syntax errors
 
 
 ## If interactive, stay open

@@ -33,12 +33,16 @@ class KSInteractiveCMD(cmd.Cmd):
     # Else...
     else:
       ## Evaluate the script
-      res = interpret( ksparser.parse(self.command_queue) , ks_global_env)
-      
-      # if printable, print the result
-      if res != None and not isinstance(res, KS_Blank):
-        # res will be a KS_DataType if anything, so safe to know __string__() is implemented
-        print res.__string__()
+      try:
+        res = interpret( ksparser.parse(self.command_queue) , ks_global_env)
+        # if printable, print the result
+        if res != None and not isinstance(res, KS_Blank):
+          # res will be a KS_DataType if anything, so safe to know __string__() is implemented
+          print res.__string__()
+      except SyntaxError:
+        # syntax errors already taken care of by parser
+        pass
+      # end try-except handeling KangaScript syntax errors
       
       # clean the queue
       self.command_queue = ""

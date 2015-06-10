@@ -421,8 +421,15 @@ def p_array_operator_missing_quadnary_all(p):
 # errors - they're gonna happen'
 # ---------------------
 def p_error(p):
-    print("Syntax error at '%s'" % p)
-    yacc.errok()
+    if p != None:
+        print("Syntax error at \nLine: %s, Char: %s, Source: '%s'" % (p.lineno, p.lexpos, p.value))
+        yacc.errok()
+    else:
+    	# don't reinitialize the parser!
+    	# thanks incredibly much to dimele's SO question and answer
+    	# at http://stackoverflow.com/questions/24627928/ply-lex-yacc-errors-handling
+        print("Unexpected end of input")
+        raise SyntaxError
 
 
 
