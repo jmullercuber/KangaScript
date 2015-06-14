@@ -30,8 +30,9 @@ script_group.add_argument('-e', '--execute', type=str, action='store', dest='kss
 # f/F, filename
 script_group.add_argument('-f', '-F', '--file', action='store', type=argparse.FileType('r'), dest='ksfile')
 
-# filename
-#script_group.add_argument('ksfile', action='store', type=file, required=False)
+# filename, -f switch above is optional
+# store to different variable KSFILE (in caps)
+script_group.add_argument('KSFILE', action='store', type=argparse.FileType('r'), nargs="?")
 
 
 # Evaluate Args
@@ -43,10 +44,11 @@ cl_args = cl_parser.parse_args()
 ## If interactive, stay open
 
 ## Determine the ks script
-if cl_args.ksfile:
+ksfile = cl_args.ksfile or cl_args.KSFILE
+if ksfile:
 	# stuff to execute is in file stored in ksfile arg
-	cl_args.ksstring = cl_args.ksfile.read()
-	cl_args.ksfile.close()
+	cl_args.ksstring = ksfile.read()
+	ksfile.close()
 elif not cl_args.ksstring:  # no arguments, interactive mode
 	ks_interactive()
 	quit(1)
