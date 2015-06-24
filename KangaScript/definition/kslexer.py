@@ -30,7 +30,7 @@ tokens = (
 	#'STRING_LITERAL_SQ',	# 'Bob\'s bot grabbled'
 	#'STRING_LITERAL_DQ',	# "you say \"yes ma'am'\"."
 	'STRING_LITERAL',		# token name for both of them
-	'NUMERIC_LITERAL',	# 123, 1.45
+	'NUMERIC_LITERAL',		# 123, 1.45
 	
 	# Compound statements
 	'COLON',				# :
@@ -138,16 +138,16 @@ def t_STRING_LITERAL_DQ(token):
 	token.value = token.value[1:-1]
 	return token
 
-def t_NUMERIC_LITERAL_INT(token):
-	r'[0-9]+'
-	token.type = "NUMERIC_LITERAL"
-	token.value = int(token.value)
-	return token
-
 def t_NUMERIC_LITERAL_FLOAT(token):
 	r'[0-9]+\.[0-9]+'
 	token.type = "NUMERIC_LITERAL"
 	token.value = float(token.value)
+	return token
+
+def t_NUMERIC_LITERAL_INT(token):
+	r'[0-9]+'
+	token.type = "NUMERIC_LITERAL"
+	token.value = int(token.value)
 	return token
 
 
