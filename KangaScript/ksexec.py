@@ -8,7 +8,7 @@ from definition.ksparser import parser as ksparser
 from definition.ksinterpreter import interpret as ksinterpret
 from definition.ksinterpreter import global_env as ks_global_env
 from definition.ksdatatypes import KS_Blank
-from ksinteractive import ks_interactive
+from ksinteractive import ks_interactive, interpreter_intro_text
 
 ##############  ARG PARSE STUFF HERE  #################
 # Create the command line argument parser
@@ -50,6 +50,8 @@ if ksfile:
 	cl_args.ksstring = ksfile.read()
 	ksfile.close()
 elif not cl_args.ksstring:  # no arguments, interactive mode
+	# nothing presented to user yet, print welcome message
+	print(interpreter_intro_text)
 	ks_interactive()
 	quit(1)
 else:

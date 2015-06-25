@@ -8,6 +8,7 @@ from definition.ksinterpreter import global_env as ks_global_env
 from definition.ksdatatypes import KS_Blank
 
 ############  INTERACTIVE MODE DEFINITION  ############
+interpreter_intro_text = "KangaScript v0.1"
 
 # custom command line handler
 class KSInteractiveCMD(cmd.Cmd):
