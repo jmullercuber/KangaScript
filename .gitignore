@@ -5,3 +5,11 @@
 
 # Temporary Files
 *~
+
+# Build and Distribution Files/Bundles
+build/*
+dist/*
+
+# PLY Generated Parser Files
+*/parser.out
+*/parsetab.py
