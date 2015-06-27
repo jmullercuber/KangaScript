@@ -289,8 +289,18 @@ def eval_exp(exp, env):
 			#print "ELEMENT-AT", index
 			
 			if ( isinstance(array, KS_Object) ):
+				index = index.__string__()
 				# using array notation to get stuff from an object
 				obj = array
+				
+				# similar to code for evaluating dot operator with expressions and identifiers
+				if not(index in obj.value):
+					# index isn't in object! quick, make it Blank!
+					obj.value[ index ] = KS_Blank()
+				else:
+					# index is already defined in there
+					pass
+		
 				return obj.value[ index ]
 
 			else:
@@ -329,8 +339,8 @@ def eval_exp(exp, env):
 			return eval_exp_DOT_operator(exp, env)
 		
 		
-		lhs = eval_exp(exp[1], env)
-		rhs = eval_exp(exp[3], env)
+		lhs = eval_exp(lhs_id, env)
+		rhs = eval_exp(rhs_id, env)
 
 		#print "lhs", lhs
 		#print "rhs", rhs
@@ -578,3 +588,44 @@ def eval_exp_DOT_operator(exp, env):
 		print "Error: using dot operator, but not on object"
 	
 # done evaluating expression with dot operator
+
+
+# this function allows easy (cuz recursive), setting assignment to object attributes
+# attributes defined with dotted identifiers or array notation, parser handles
+# attribute_list is a collection of KS_Identifiers and KS_DataTypes
+def assign_object_attribute(obj, attribute_list, rhs):
+	# make sure the thing we wanna assign to is an object
+	if ( isinstance(obj, KS_Object) ):
+		# extract the next attribute as index
+		# attribute can be KS_Identifer or KS_DataType converted to python string
+		if isinstance(attribute_list[0], KS_Identifier):
+			index = attribute_list[0].name
+		else:
+			index = attribute_list[0].__string__()
+			
+		# if this is the final attribute
+		if len(attribute_list) == 1:
+			# no need to check if it exists now already
+			# just assign
+			obj.value[ index ] = rhs
+			# and return rhs, indicating it was successful
+			return rhs
+		# otherwise, we keep going farther in the attribute list
+		else: # len(attribute_list) > 1
+			# make sure the attribute in question is valid
+			if index in obj.value:  # I need a way to compare two different values, like two KS_Number<3>s
+							# nvm, use string representation of KS_DataTypes
+				# make the recursive call
+				return assign_object_attribute(obj.value[ index ], attribute_list[1:], rhs)
+			else:
+				# you're setting to an non-existant attribute's children
+				# don't go that far, implicit one step at a time
+				print("Error: Object", obj, "has no attribute", index)
+		# end if checking attribute_list length
+	else:
+		# you can't set attributes to non-objects
+		# (at least not yet)
+		print("Error: Assigning attribute to non-object", obj)
+		
+		
+# end function assigning values to object attributes
