@@ -242,7 +242,8 @@ def p_expression_unarylhs(p):
 
 
 def p_expression_rhsarray(p):
-	'''expression : expression LEFT_BOX array_operator_insides RIGHT_BOX
+	'''expression : expression LEFT_BOX array_operator_insides_element RIGHT_BOX
+		| expression LEFT_BOX array_operator_insides_bounded RIGHT_BOX
 		| expression LEFT_BOX array_operator_missing RIGHT_BOX'''
 	p[0] = ('operator_array-rhs', p[1], p[3])
 
@@ -250,16 +251,16 @@ def p_expression_rhsarray(p):
 
 def p_expression_binary(p):
 	# Operators have to be all here for precedence to work
-	'''expression : expression ASSIGN_EQUALS expression
-		| expression DOT_EQUALS expression
-		| expression PLUS_EQUALS expression
-		| expression MINUS_EQUALS expression
-		| expression TIMES_EQUALS expression
-		| expression DIVIDE_EQUALS expression
-		| expression MODULUS_EQUALS expression
-		| expression EXPONENT_EQUALS expression
-		| expression AND_EQUALS expression
-		| expression OR_EQUALS expression
+	'''expression : assignable ASSIGN_EQUALS expression
+		| assignable DOT_EQUALS expression
+		| assignable PLUS_EQUALS expression
+		| assignable MINUS_EQUALS expression
+		| assignable TIMES_EQUALS expression
+		| assignable DIVIDE_EQUALS expression
+		| assignable MODULUS_EQUALS expression
+		| assignable EXPONENT_EQUALS expression
+		| assignable AND_EQUALS expression
+		| assignable OR_EQUALS expression
 		| expression DOT expression_identifier
 		| expression PLUS expression
 		| expression MINUS expression
@@ -277,6 +278,21 @@ def p_expression_binary(p):
 		| expression COMPARE_LT expression
 		| expression COMPARE_LTET expression'''
 	p[0] = ('operator_binary', p[1], p[2], p[3])
+
+
+def p_assignable(p):
+	'''assignable : expression_identifier
+		| expression DOT expression_identifier
+		| expression LEFT_BOX array_operator_insides_element RIGHT_BOX'''
+	# TODO: find out how I can make this better! To mitigate shift/reduce conflict with get element at
+	# added rule array_operator_insides_element, but it reduces to just expression!
+	# seems like clutter to me
+	if len(p)==2:  # identifier
+		p[0] = p[1]
+	elif len(p)==4:  # (exp).identifier
+		p[0] = ('operator_binary', p[1], p[2], p[3])
+	elif len(p)==5:  # (exp)[insides]
+		p[0] = ('operator_array-rhs', p[1], p[3])
 
 
 def p_expression_id(p):
@@ -377,16 +393,19 @@ def p_key_value_pair(p):
 	p[0] = [('key_value_pair', p[1].value, p[3])]
 
 
-def p_array_operator_insides(p):
-	'''array_operator_insides : expression
-		| expression COLON expression
-		| expression COLON expression COLON expression'''
-	if len(p)==6:
-		p[0] = ('sublist-stepped', {'start':p[1], 'end':p[3], 'step':p[5]})
-	elif len(p)==4:
-		p[0] = ('sublist-stepped', {'start':p[1], 'end':p[3], 'step':KS_Null()})
-	elif len(p)==2:
-		p[0] = ('element_at', p[1])
+def p_array_operator_insides_elementat(p):
+	'array_operator_insides_element : expression'
+	p[0] = ('element_at', p[1])
+
+
+def p_array_operator_insides_bounded(p):
+	'array_operator_insides_bounded : expression COLON expression'
+	p[0] = ('sublist-stepped', {'start':p[1], 'end':p[3], 'step':KS_Null()})
+
+
+def p_array_operator_insides_boundnsteps(p):
+	'array_operator_insides_bounded : expression COLON expression COLON expression'
+	p[0] = ('sublist-stepped', {'start':p[1], 'end':p[3], 'step':p[5]})
 
 def p_array_operator_missing_ternary_end(p):
 	'''array_operator_missing : expression COLON'''

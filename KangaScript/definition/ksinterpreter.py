@@ -339,28 +339,61 @@ def eval_exp(exp, env):
 			return eval_exp_DOT_operator(exp, env)
 		
 		
-		lhs = eval_exp(lhs_id, env)
 		rhs = eval_exp(rhs_id, env)
-
+		
+		if rhs==None:
+			print "Error: exp", rhs_id, "undefined"
+			return
+		
 		#print "lhs", lhs
 		#print "rhs", rhs
 		#print "op", op
 		
-		if ( (not isinstance(lhs_id, KS_Identifier)) and op[-1]=='=' and op!="==" and op!=">=" and op!="<="):
-			print "Error: Attempted assignment to a non-identifier"
-		
-		elif (isinstance(lhs_id, KS_Identifier) and op[-1]=="=" and op!="==" and op!=">=" and op!="<="):
+		if (op[-1]=='=' and op!="==" and op!=">=" and op!="<="):
+			#if (not isinstance(lhs_id, KS_Identifier)):
+			#	print "Error: Attempted assignment to a non-identifier"
+			#
+			
 			#print "You wanna assign"
 			if op == "=":	# Assign_Equal
-				#print "rhsassign", lhs, rhs, rhs.__string__()
-				# yes, should overwrite old value by that name
-				# so Environment.update()
-				env.update(lhs_id, rhs)
-				return rhs
+				# check what kind of thing we're assigning to
+				# maybe hand to external helper method
+				# Identifiers
+				if isinstance(lhs_id, KS_Identifier):
+					#print "rhsassign", lhs, rhs, rhs.__string__()
+					# yes, should overwrite old value by that name
+					# so Environment.update()
+					env.update(lhs_id, rhs)
+					return rhs
+				
+				# Object & Array Members
+				elif type(lhs_id) is tuple:
+					# Just need parent object/array and attribute/index when sending to helper function
+					# Not updating* environment element like with assigning to identifiers
+					# * (well, not directly anyway. But can be used to edit anonomous/literal values outside of the environment too)
+					
+					# Dotted Identifier Attribute
+					if lhs_id[0]=="operator_binary" and lhs_id[2]==".":
+						return assign_data_member( eval_exp(lhs_id[1], env), lhs_id[3], rhs)  # obj, attribute, rhs
+					# Array-Notation Element-At
+					elif lhs_id[0]=="operator_array-rhs" and lhs_id[2][0]=='element_at':
+						return assign_data_member( eval_exp(lhs_id[1], env), eval_exp(lhs_id[2][1], env), rhs)  # obj/arr, attribute, rhs
+					# Assigning in a way KangaScript doesn't but maybe should allow!
+					else:
+						print "Error: I'm sorry, but you are trying to assign a value in a way that KangaScript doesn't but maybe should allow! :~("
+						return
+					# end if assigning to member based off notation
+				else:
+					print "Error: Unknown assignable"
+					return
+				# end if checking Identifier or Object Member
 			
 			# lhs op= rhs  -->  lhs = (lhs op rhs)
 			else:
 				#print "Recursive assign"
+				# I would rather have a try-except here, checking lhs==None error.
+				# Then could remove repeditive eval_exp call
+				lhs = eval_exp(lhs_id, env)
 				if lhs == None:	# Never defined
 					print "Error: never assigned to identifier before. Confusing operation"
 				else:
@@ -369,10 +402,10 @@ def eval_exp(exp, env):
 							('operator_binary', lhs, op[:-1], rhs)
 						),env
 					)
-			#elif op == "+=":	# PLUS_EQUALS
-			#	env.update(lhs[1], to_KS_DataType( currentValue + rhs.value ))
-			#	return rhs
+			
 		
+		# Dealing with the other binary operators, not DOT or ASSIGN_EQUALS or start of "Recursive assign"
+		lhs = eval_exp(lhs_id, env)
 		
 		if op == "+":		# PLUS
 			return to_KS_DataType( lhs.value + rhs.value )
@@ -396,29 +429,12 @@ def eval_exp(exp, env):
 		
 		
 		
+		# Convert possible object member into python string for comparison
 		elif op == "in":	# IN
 			#print lhs.value, "in", rhs.value
-			return to_KS_DataType( lhs in rhs.value )
+			return to_KS_DataType( lhs.__string__() in rhs.value )
 		elif op == "has":	# HAS
-			return to_KS_DataType( rhs in lhs.value  )
-		
-		
-		elif op == ".":		# DOT
-			# same as 'operator_array-rhs' --> 'element_at' --> object
-
-			index = rhs
-			
-			if ( isinstance(lhs, KS_Object) ):
-				if (not(index in lhs.value)):
-					# index isn't in object! quick, make it Blank!
-					lhs.value[index] = KS_Blank()
-				else:
-					# index is already defined in there
-					pass
-				
-				return lhs.value[ index ]
-			else:
-				print "Error: using dot operator, but not on object"
+			return to_KS_DataType( rhs.__string__() in lhs.value  )
 		
 		
 		elif op == "<":		# LT
@@ -590,38 +606,45 @@ def eval_exp_DOT_operator(exp, env):
 # done evaluating expression with dot operator
 
 
-# this function allows easy (cuz recursive), setting assignment to object attributes
+# this function is straightforward assignment to object attributes and array members
 # attributes defined with dotted identifiers or array notation, parser handles
-# attribute_list is a collection of KS_Identifiers and KS_DataTypes
-def assign_object_attribute(obj, attribute_list, rhs):
+# attribute is a KS_Identifier or KS_DataType
+# array members use array notation
+def assign_data_member(data, member, rhs):
 	# make sure the thing we wanna assign to is an object
-	if ( isinstance(obj, KS_Object) ):
-		# extract the next attribute as index
+	if isinstance(data, KS_Object):
+		obj = data
+		attribute = member
+		# extract the attribute as index
 		# attribute can be KS_Identifer or KS_DataType converted to python string
-		if isinstance(attribute_list[0], KS_Identifier):
-			index = attribute_list[0].name
+		if isinstance(attribute, KS_Identifier):
+			index = attribute.name
 		else:
-			index = attribute_list[0].__string__()
+			index = attribute.__string__()
 			
-		# if this is the final attribute
-		if len(attribute_list) == 1:
-			# no need to check if it exists now already
-			# just assign
-			obj.value[ index ] = rhs
-			# and return rhs, indicating it was successful
-			return rhs
-		# otherwise, we keep going farther in the attribute list
-		else: # len(attribute_list) > 1
-			# make sure the attribute in question is valid
-			if index in obj.value:  # I need a way to compare two different values, like two KS_Number<3>s
-							# nvm, use string representation of KS_DataTypes
-				# make the recursive call
-				return assign_object_attribute(obj.value[ index ], attribute_list[1:], rhs)
-			else:
-				# you're setting to an non-existant attribute's children
-				# don't go that far, implicit one step at a time
-				print("Error: Object", obj, "has no attribute", index)
-		# end if checking attribute_list length
+		# no need to check if the final attribute exists in the object already
+		# just assign
+		obj.value[ index ] = rhs
+		# and return rhs, indicating it was successful
+		return rhs
+		
+	# Assigning to Arrays obviously came as an after-thought :(
+	elif isinstance(data, KS_Array):
+		array = data
+		# check that the index is good
+		index = member.asnumber()
+		if int(index) != index:
+			print "Error: invalid array index", index
+			return
+		# assign
+		try:
+			array.value[ index ] = rhs
+		except IndexError:
+			print "Error: invalid array index", index
+			return
+		
+		return rhs
+		
 	else:
 		# you can't set attributes to non-objects
 		# (at least not yet)
