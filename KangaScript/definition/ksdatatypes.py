@@ -119,7 +119,7 @@ class KS_Array(KS_DataType):
 	def asnumber(self):
 		return len(self.value)
 	def __string__(self):
-		return str([e.__string__() for e in self.value])
+		return str([e.value for e in self.value])
 	def primvativesCopy(self):
 		return KS_Array(self.value[:])
 
