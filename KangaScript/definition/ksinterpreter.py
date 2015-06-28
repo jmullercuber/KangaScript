@@ -432,9 +432,21 @@ def eval_exp(exp, env):
 		# Convert possible object member into python string for comparison
 		elif op == "in":	# IN
 			#print lhs.value, "in", rhs.value
-			return to_KS_DataType( lhs.__string__() in rhs.value )
+			if isinstance(rhs, KS_Object):
+				return to_KS_DataType( lhs.__string__() in rhs.value )
+			elif isinstance(rhs, KS_Array):
+				for e in rhs.value:
+					if lhs.value == e.value:
+						return to_KS_DataType( True )
+				else:
+					return to_KS_DataType( False )
+			else:
+				print "Error: Can't do in operator on non-compound data-type"
 		elif op == "has":	# HAS
-			return to_KS_DataType( rhs.__string__() in lhs.value  )
+			return eval_exp(
+				('operator_binary', rhs, "in", lhs),
+				env
+			)
 		
 		
 		elif op == "<":		# LT
