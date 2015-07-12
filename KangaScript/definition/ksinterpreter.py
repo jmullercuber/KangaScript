@@ -415,7 +415,11 @@ def eval_exp(exp, env):
 		elif op == "-":		# MINUS
 			return to_KS_DataType( lhs.value - rhs.value )
 		elif op == "/":		# DIVIDE
-			return to_KS_DataType( lhs.value / rhs.value )
+			ans = float(lhs.value) / float(rhs.value)
+			# Simplify decimals
+			if int(ans)==ans:
+			    ans = int(ans)
+			return to_KS_DataType( ans )
 		elif op == "%":		# MODULUS
 			return to_KS_DataType( lhs.value % rhs.value )
 		elif op == "^":		# EXPONENTIATE
