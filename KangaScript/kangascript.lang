@@ -205,6 +205,7 @@
           <prefix>(?&lt;![\w\.])</prefix>
           <keyword>print</keyword>
           <keyword>range</keyword>
+          <keyword>type</keyword>
         </context>
       </include>
     </context>

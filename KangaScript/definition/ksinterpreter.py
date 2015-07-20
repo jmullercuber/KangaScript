@@ -52,8 +52,10 @@ class Environment:
 # The environment book is a collection of python strings and KS_DataType pairs
 
 global_env = Environment(None, {
+		# pre-fill global environment with built-in functions
 		'print' : KS_Function('print', None, None),
 		'range' : KS_Function('range', None, None),
+		'type'  : KS_Function('type', None, None),
 	}
 )
 
@@ -507,7 +509,7 @@ def eval_exp(exp, env):
 		# Evaluation will now take place
 		
 		# Take a look at the built-in functions tho
-		built_in_functions = ['print', 'range']
+		built_in_functions = ['print', 'range', 'type']
 		# if we're calling a built-in, the code implementation is HERE
 		if fname in built_in_functions:
 			if fname == "print":
@@ -515,7 +517,7 @@ def eval_exp(exp, env):
 				# hense, array concatenation, and string join
 				print ' '.join([e.__string__() for e in argvals])
 				return None
-				# function fname done.
+				# function print done.
 			
 			elif fname == "range":
 				# RANGE returns a KS_Array
@@ -525,7 +527,14 @@ def eval_exp(exp, env):
 				end = argvals[0]
 				arr = to_KS_DataType(  range( int(end.asnumber()) )  )
 				return arr
-				# function fname done.
+				# function range done.
+			
+			elif fname == "type":
+				# TYPE returns a KS_String
+				# represents the data type arg is
+				e = argvals[0]
+				return KS_String(  e.__type__()  )
+				# function type done.
 			
 		else:
 			# function implementation is not built-in,

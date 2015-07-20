@@ -10,6 +10,8 @@ class KS_DataType:
 		return 0
 	def __string__(self):
 		return ''
+	def __type__(self):
+		return (self.__class__.__name__)[3:].lower()
 #	def primvativesCopy(self):
 #		return to_KS_DataType(self)
 	pass
