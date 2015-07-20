@@ -148,7 +148,7 @@ def p_stmt_c_elif_block(p):
 	if len(p)==2:
 		p[0] = [p[1]]
 	elif len(p)==3:
-		p[0] = [p[1]] + p[3]
+		p[0] = [p[1]] + p[2]
 
 def p_stmt_c_elif(p):
 	'stmt_c_elif : ELIF expression COLON ks'
