@@ -56,6 +56,7 @@ global_env = Environment(None, {
 		'print' : KS_Function('print', None, None),
 		'range' : KS_Function('range', None, None),
 		'type'  : KS_Function('type', None, None),
+		'len'  : KS_Function('len', None, None),
 	}
 )
 
@@ -509,7 +510,7 @@ def eval_exp(exp, env):
 		# Evaluation will now take place
 		
 		# Take a look at the built-in functions tho
-		built_in_functions = ['print', 'range', 'type']
+		built_in_functions = ['print', 'range', 'type', 'len']
 		# if we're calling a built-in, the code implementation is HERE
 		if fname in built_in_functions:
 			if fname == "print":
@@ -535,6 +536,16 @@ def eval_exp(exp, env):
 				e = argvals[0]
 				return KS_String(  e.__type__()  )
 				# function type done.
+			
+			elif fname == "len":
+				# LEN returns a KS_Number
+				# of the size of a value with sub-elements/units
+				e = argvals[0]
+				if isinstance(e, (KS_Object, KS_Array, KS_String)):
+					return KS_Number(  len(e.value)  )
+				else:
+					return KS_Number(  1  )
+				# function len done.
 			
 		else:
 			# function implementation is not built-in,

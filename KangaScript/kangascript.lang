@@ -206,6 +206,7 @@
           <keyword>print</keyword>
           <keyword>range</keyword>
           <keyword>type</keyword>
+          <keyword>len</keyword>
         </context>
       </include>
     </context>
