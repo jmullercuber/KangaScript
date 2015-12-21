@@ -139,7 +139,7 @@ def t_STRING_LITERAL_DQ(token):
 	return token
 
 def t_NUMERIC_LITERAL_FLOAT(token):
-	r'[0-9]+\.[0-9]+'
+	r'[0-9]*\.[0-9]+'
 	token.type = "NUMERIC_LITERAL"
 	token.value = float(token.value)
 	return token
