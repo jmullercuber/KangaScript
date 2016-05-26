@@ -401,7 +401,7 @@ def eval_exp(exp, env):
 					print "Error: never assigned to identifier before. Confusing operation"
 				else:
 					return eval_exp(
-						('operator_binary', lhs_id, "=", 
+						('operator_binary', lhs_id, "=",
 							('operator_binary', lhs, op[:-1], rhs)
 						),env
 					)
@@ -600,7 +600,7 @@ def eval_exp(exp, env):
 				except KS_Return as r:
 					# function fname done.
 					return r.retval
-		# Complicated! 
+		# Complicated!
 		
 		
 		
@@ -685,6 +685,5 @@ def assign_data_member(data, member, rhs):
 		# you can't set attributes to non-objects
 		# (at least not yet)
 		print("Error: Assigning attribute to non-object", obj)
-		
-		
+	
 # end function assigning values to object attributes

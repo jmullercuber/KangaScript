@@ -79,4 +79,3 @@ def ks_interactive():
     pass
   # all with loop done!
 # end function definition ks_interactive
-
