@@ -71,7 +71,7 @@ def p_function_definition(p):
 def p_function_anonmyous(p):
 	'''function_anonymous : FUNCTION parameters COLON ks ENDFUNCTION'''
 	p[0] = KS_Function('*anon*', p[2], p[4])
-	
+
 
 def p_parameters(p):
 	'''parameters : LEFT_PAREN param_list RIGHT_PAREN'''
@@ -195,25 +195,18 @@ def p_stmt_s_import(p):
 	p[0] = ('import', p[2])
 
 def p_dotted_identifier(p):
-	'''dotted_identifier : dotted_identifier_something
-		| dotted_identifier_everything'''
-	p[0] = p[1]
-
-def p_dotted_identifier_something(p):
-	'''dotted_identifier_something : expression_identifier
-		| expression_identifier DOT dotted_identifier_something'''
+	# p is list of identifiers or
+	# p is optional list of identifiers and ends in string "*EVERYTHING*"
+	'''dotted_identifier : expression_identifier DOT dotted_identifier
+		| expression_identifier
+		| TIMES'''
 	if len(p)==4:
 		p[0] = [p[1]] + p[3]
 	elif len(p)==2:
-		p[0] = [p[1]]
-
-def p_dotted_identifier_everything(p):
-	'''dotted_identifier_everything : TIMES
-		| dotted_identifier_something DOT TIMES'''
-	if len(p)==4:
-		p[0] = p[1] + ["*EVERYTHING*"]
-	elif len(p)==2:
-		p[0] = ["*EVERYTHING*"]
+		if p[1]=="*":
+			p[0] = [KS_Identifier("*EVERYTHING*")]
+		else:
+			p[0] = [p[1]]
 
 def p_stmt_s_expression(p):
 	'stmt_s_expression : expression'
