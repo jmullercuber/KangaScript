@@ -71,7 +71,7 @@ if cl_args.show_source:
 
 ## Evaluate the script
 try:
-    ks_global_env = GlobalEnv( os.getcwd() ) # TODO: Update pwd param with file's parent dir
+    ks_global_env = GlobalEnv( os.path.abspath( os.path.dirname(ksfile.name) ) )
     ast = ksparser.parse(cl_args.ksstring)
     res = ksinterpret(ast, ks_global_env)
     if res != None and not isinstance(res, KS_Blank):
