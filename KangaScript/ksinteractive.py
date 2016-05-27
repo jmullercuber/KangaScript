@@ -1,10 +1,11 @@
 # module for haneling command-line experiences
 import cmd
+import os
 
 # needed for running ks code
 from definition.ksparser import parser as ksparser
 from definition.ksinterpreter import interpret
-from definition.ksinterpreter import global_env as ks_global_env
+from definition.ksinterpreter import GlobalEnv
 from definition.ksdatatypes import KS_Blank
 
 ############  INTERACTIVE MODE DEFINITION  ############
@@ -35,6 +36,7 @@ class KSInteractiveCMD(cmd.Cmd):
     else:
       ## Evaluate the script
       try:
+        ks_global_env = GlobalEnv( os.getcwd() )
         res = interpret( ksparser.parse(self.command_queue) , ks_global_env)
         # if printable, print the result
         if res != None and not isinstance(res, KS_Blank):

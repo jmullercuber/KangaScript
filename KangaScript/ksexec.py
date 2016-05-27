@@ -2,11 +2,11 @@
 
 # I'll need this to use command arguments
 import argparse
-import sys, os.path
+import os
 # let's get the one instance of the KS Parser
 from definition.ksparser import parser as ksparser
 from definition.ksinterpreter import interpret as ksinterpret
-from definition.ksinterpreter import global_env as ks_global_env
+from definition.ksinterpreter import GlobalEnv
 from definition.ksdatatypes import KS_Blank
 from ksinteractive import ks_interactive, interpreter_intro_text
 
@@ -71,6 +71,7 @@ if cl_args.show_source:
 
 ## Evaluate the script
 try:
+    ks_global_env = GlobalEnv( os.getcwd() ) # TODO: Update pwd param with file's parent dir
     ast = ksparser.parse(cl_args.ksstring)
     res = ksinterpret(ast, ks_global_env)
     if res != None and not isinstance(res, KS_Blank):

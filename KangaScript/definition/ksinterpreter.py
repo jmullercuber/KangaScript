@@ -59,6 +59,17 @@ global_env = Environment(None, {
 		'len'  : KS_Function('len', None, None),
 	}
 )
+class GlobalEnv(Environment):
+	def __init__(self, pwd):
+		Environment.__init__(self, None, {
+				# pre-fill global environment with built-in functions
+				'print' : KS_Function('print', None, None),
+				'range' : KS_Function('range', None, None),
+				'type'  : KS_Function('type', None, None),
+				'len'  : KS_Function('len', None, None),
+			}
+		)
+		self.pwd = pwd
 
 
 
