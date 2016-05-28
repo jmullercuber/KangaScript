@@ -12,7 +12,7 @@ def importFile(path, pwd):
         # if file exists
         # evaluate it
         # TODO: actually eval, use different pwd for global env
-        return GlobalEnv("~")
+        return GlobalEnv( os.path.abspath(os.path.dirname(fileLoc)) )
 
 
 def importDir(path, pwd):
