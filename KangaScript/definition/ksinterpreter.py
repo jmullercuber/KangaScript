@@ -1,7 +1,7 @@
 # we WILL need KS Data Types
 from ksdatatypes import *
 # helper code for interpreting imports (deals with external system)
-import ksimport
+import os
 # this is it!
 # interpret the ast representation of the program
 
@@ -187,13 +187,14 @@ def eval_simple(stmt, env):
 			print ([e.name for e in path])
 			
 			if path[-1].name != "*EVERYTHING*":
-				# import a single file, get the environment dictionary
-				package_env = ksimport.importFile( [i.name for i in path], env.lookup(KS_Identifier("**PWD")).value )
-				pkg_book = package_env.book
+				# import a single file
+				package_env = importFile( [i.name for i in path], env.lookup(KS_Identifier("**PWD")).value )
 				
-				# store the contents of imported env in KS object
-				# repackaging is nessary because Environment keys are KS_Identifiers, not python strings.
-				package_obj = KS_Object( { k.name:pkg_book[k] for k in pkg_book } )
+				# store the contents of imported env dictionary in KS object
+				# repackaging is NOT nessary because Environment book keys are python strings.
+				# and update to module should update imported var
+				package_obj = KS_Object( package_env.book )
+				# however, built-ins shouldn't transfer with env...
 				
 				# create object var with contents and name of imported package in current env
 				env.update(path[-1], package_obj)
@@ -444,7 +445,7 @@ def eval_exp(exp, env):
 			ans = float(lhs.value) / float(rhs.value)
 			# Simplify decimals
 			if int(ans)==ans:
-			    ans = int(ans)
+				ans = int(ans)
 			return to_KS_DataType( ans )
 		elif op == "%":		# MODULUS
 			return to_KS_DataType( lhs.value % rhs.value )
@@ -710,3 +711,21 @@ def assign_data_member(data, member, rhs):
 		print("Error: Assigning attribute to non-object", obj)
 	
 # end function assigning values to object attributes
+
+
+def importFile(path, pwd):
+	# find the KS source
+	fileLoc = pwd + "/" + "/".join(path) + ".ks"
+	print("Importing single file", fileLoc)
+	if os.path.isfile(fileLoc):
+		# if file exists
+		# evaluate the KS code
+		# TODO: actually eval
+		return GlobalEnv( os.path.abspath(os.path.dirname(fileLoc)) )
+
+
+def importDir(path, pwd):
+	dirLoc = pwd + "/" + "/".join(path[:-1]+[]) + "/"
+	if os.path.isdir(dirLoc):
+		# if dir exists
+		pass
