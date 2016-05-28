@@ -13,6 +13,10 @@ interpreter_intro_text = "KangaScript v0.1"
 
 # custom command line handler
 class KSInteractiveCMD(cmd.Cmd):
+  def __init__(self, env):
+    cmd.Cmd.__init__(self)
+    self.ks_global_env = env
+      
   # Text preceding user-entered code
   prompt = "> "
   command_queue = ""
@@ -36,8 +40,7 @@ class KSInteractiveCMD(cmd.Cmd):
     else:
       ## Evaluate the script
       try:
-        ks_global_env = GlobalEnv( os.getcwd() )
-        res = interpret( ksparser.parse(self.command_queue) , ks_global_env)
+        res = interpret( ksparser.parse(self.command_queue) , self.ks_global_env)
         # if printable, print the result
         if res != None and not isinstance(res, KS_Blank):
           # res will be a KS_DataType if anything, so safe to know __string__() is implemented
@@ -69,11 +72,11 @@ class KSInteractiveCMD(cmd.Cmd):
   # end overridden member method emptyline()
 # end subclass definition KSInteractiveCMD
 
-def ks_interactive():
+def ks_interactive(env=GlobalEnv( os.getcwd() )):
   # go and enter the loop
   try:
     # create new instance of CMD handler and run it until done
-    KSInteractiveCMD().cmdloop()
+    KSInteractiveCMD(env).cmdloop()
     # exit calmly...
   # or maybe met with keyboard exit (like Ctrl+C)
   except KeyboardInterrupt:

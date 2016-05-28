@@ -70,8 +70,8 @@ if cl_args.show_source:
 
 
 ## Evaluate the script
+ks_global_env = GlobalEnv( os.path.abspath( os.path.dirname(ksfile.name) ) )
 try:
-    ks_global_env = GlobalEnv( os.path.abspath( os.path.dirname(ksfile.name) ) )
     ast = ksparser.parse(cl_args.ksstring)
     res = ksinterpret(ast, ks_global_env)
     if res != None and not isinstance(res, KS_Blank):
@@ -91,4 +91,4 @@ if not cl_args.interactive_mode:
 # end if determining what to do if NOT interactive
 
 # if this far, is interactive!
-ks_interactive()
+ks_interactive(ks_global_env)
