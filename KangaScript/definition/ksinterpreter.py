@@ -1,6 +1,7 @@
 # we WILL need KS Data Types
 from ksdatatypes import *
-# helper code for interpreting imports (deals with external system)
+# need these to interpret and import another KangaScript (deals with external system)
+from ksparser import parser as ksparser
 import os
 # this is it!
 # interpret the ast representation of the program
@@ -184,8 +185,6 @@ def eval_simple(stmt, env):
 			path = stmt[1]
 			# could be built-in, or ref to custom KS source
 			# first, I will deal with custom KS sources
-			print ([e.name for e in path])
-			
 			if path[-1].name != "*EVERYTHING*":
 				# import a single file
 				package_env = importFile( [i.name for i in path], env.lookup(KS_Identifier("**PWD")).value )
@@ -716,12 +715,21 @@ def assign_data_member(data, member, rhs):
 def importFile(path, pwd):
 	# find the KS source
 	fileLoc = pwd + "/" + "/".join(path) + ".ks"
-	print("Importing single file", fileLoc)
+	
 	if os.path.isfile(fileLoc):
 		# if file exists
 		# evaluate the KS code
-		# TODO: actually eval
-		return GlobalEnv( os.path.abspath(os.path.dirname(fileLoc)) )
+		ks_global_env = GlobalEnv( os.path.abspath(os.path.dirname(fileLoc)) )
+		try:
+			f = open(fileLoc)
+			ast = ksparser.parse(f.read())
+			f.close()
+			interpret(ast, ks_global_env)
+		except SyntaxError:
+			# syntax errors already taken care of in parser
+			print "Error importing module ", path[-1]
+		# end try-except handeling KangaScript syntax errors
+		return ks_global_env
 
 
 def importDir(path, pwd):
