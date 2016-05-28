@@ -58,12 +58,13 @@ class GlobalEnv(Environment):
 				'print' : KS_Function('print', None, None),
 				'range' : KS_Function('range', None, None),
 				'type'  : KS_Function('type', None, None),
-				'len'  : KS_Function('len', None, None),
+				'len'   : KS_Function('len', None, None),
+				# pre-fill with environment vars too. Non-valid IDENTIFIERs
+				'**PWD'  : KS_String(pwd)
 			}
 		)
-		self.pwd = pwd
-
-
+	# end def __init__
+# end class GlobalEnv
 
 
 #
