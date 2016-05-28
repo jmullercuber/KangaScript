@@ -51,14 +51,6 @@ class Environment:
 
 # The environment book is a collection of python strings and KS_DataType pairs
 
-global_env = Environment(None, {
-		# pre-fill global environment with built-in functions
-		'print' : KS_Function('print', None, None),
-		'range' : KS_Function('range', None, None),
-		'type'  : KS_Function('type', None, None),
-		'len'  : KS_Function('len', None, None),
-	}
-)
 class GlobalEnv(Environment):
 	def __init__(self, pwd):
 		Environment.__init__(self, None, {
