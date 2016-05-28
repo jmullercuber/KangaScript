@@ -21,4 +21,5 @@ New >
   Filenames - Add: "*.ks"
   OK
 
-
+Allow running from CL as 'ks' command
+sudo ln -s /Programming_Projects/KangaScript/KangaScript/ksexec.py /usr/bin/ks
