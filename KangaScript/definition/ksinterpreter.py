@@ -1,5 +1,7 @@
 # we WILL need KS Data Types
 from ksdatatypes import *
+# helper code for interpreting imports (deals with external system)
+import ksimport
 # this is it!
 # interpret the ast representation of the program
 
@@ -178,6 +180,24 @@ def eval_simple(stmt, env):
 		
 		
 		elif stype == "import":
+			# path is a list of KS_Identifiers
+			path = stmt[1]
+			# could be built-in, or ref to custom KS source
+			# first, I will deal with custom KS sources
+			print ([e.name for e in path])
+			
+			if path[-1].name != "*EVERYTHING*":
+				# find the KS source
+				# run the KS code
+				package_env = ksimport.importFile( [i.name for i in path], env.lookup(KS_Identifier("**PWD")).value )
+				pkg_book = package_env.book
+				
+				# store the contents of imported env in KS object
+				# repackaging is nessary because Environment keys are KS_Identifiers, not python strings.
+				package_obj = KS_Object( { k.name:pkg_book[k] for k in pkg_book } )
+				
+				# create object var with contents and name of imported package in current env
+				env.update(path[-1], package_obj)
 			pass
 		
 		
@@ -656,7 +676,7 @@ def assign_data_member(data, member, rhs):
 		obj = data
 		attribute = member
 		# extract the attribute as index
-		# attribute can be KS_Identifer or KS_DataType converted to python string
+		# attribute can be KS_Identifier or KS_DataType converted to python string
 		if isinstance(attribute, KS_Identifier):
 			index = attribute.name
 		else:
