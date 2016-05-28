@@ -187,8 +187,7 @@ def eval_simple(stmt, env):
 			print ([e.name for e in path])
 			
 			if path[-1].name != "*EVERYTHING*":
-				# find the KS source
-				# run the KS code
+				# import a single file, get the environment dictionary
 				package_env = ksimport.importFile( [i.name for i in path], env.lookup(KS_Identifier("**PWD")).value )
 				pkg_book = package_env.book
 				

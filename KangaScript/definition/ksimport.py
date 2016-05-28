@@ -6,12 +6,13 @@ import os
 #from ksinterpreter import GlobalEnv
 
 def importFile(path, pwd):
+    # find the KS source
     fileLoc = pwd + "/" + "/".join(path) + ".ks"
     print("Importing single file", fileLoc)
     if os.path.isfile(fileLoc):
         # if file exists
-        # evaluate it
-        # TODO: actually eval, use different pwd for global env
+        # evaluate the KS code
+        # TODO: actually eval
         return GlobalEnv( os.path.abspath(os.path.dirname(fileLoc)) )
 
 
